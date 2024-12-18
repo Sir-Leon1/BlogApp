@@ -18,6 +18,16 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  profile: {
+    bio: String,
+    profilePicUrl: String
+  },
+  socialLinks: [
+    {
+      platform: { type: String, required: true},
+      url: { type: String, required: true }
+    }
+  ],
 }, { timestamps: true });
 
 UserSchema.pre('save', async function (next) {

@@ -16,3 +16,6 @@ CaptainsLog
 
 # Build output
 frontend/build
+
+#Ignore documentation
+*.doc.md
