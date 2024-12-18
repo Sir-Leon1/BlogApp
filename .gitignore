@@ -1,0 +1,18 @@
+# Ignore local MongoDB database files (if running locally)
+data/
+dump/
+
+# Ignore any OS or editor-specific files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+CaptainsLog
+
+# Build output
+frontend/build
