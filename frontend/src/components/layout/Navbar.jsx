@@ -1,0 +1,105 @@
+import React, {useState} from 'react';
+import {Menu, X} from 'lucide-react';
+import SearchBar from "./Navigation/searchbar.jsx";
+
+const Navbar = ({isloggedin, userDetails, onLogout}) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+ const scrollToFooter = () => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth',
+    });
+ }
+  return (
+    <nav className="border-b border-gray-200 py-4">
+
+      <div className="container mx-auto px-4 flex items-center justify-between">
+        <div className="flex items-center">
+          <img
+            src="data:image/png;base64,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"
+            alt="Webterm" className="h-8"/>
+          <div className="ml-8 hidden sm:flex space-x-4">
+            <a href="/" className="text-gray-600 hover:text-gray-900">Home</a>
+            <a href="#" className="text-gray-600 hover:text-gray-900">Popular</a>
+            <a href="#" className="text-gray-600 hover:text-gray-900">New</a>
+            <a href="#" className="text-gray-600 hover:text-gray-900">Reading list</a>
+            <a href="/topics" className="text-gray-600 hover:text-gray-900">Topics</a>
+          </div>
+        </div>
+        <div className="ml-8 flex flexspace-x-4">
+          <SearchBar></SearchBar>
+          <button className="p-2">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </button>
+        </div>
+        <div className="hidden sm:flex items-center space-x-4">
+          {isloggedin ? (
+            <>
+              <span className="text-gray-600">Profile: {userDetails?.username}</span>
+              <button
+                onClick={onLogout}
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={scrollToFooter}
+              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Login / Register
+            </button>
+          )}
+        </div>
+        <div className="sm:hidden">
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+          >
+            {isMobileMenuOpen ? (
+              <X className="h-6 w-6"/>
+            ) : (
+              <Menu className="h-6 w-6"/>
+            )}
+          </button>
+        </div>
+      </div>
+
+      {isMobileMenuOpen && (
+        <div className="sm:hidden py-4 p-4">
+          <div className="space-y-2">
+            <a href="/" className="block px-3 py-2 text-gray-600 hover:text-gray-900">Home</a>
+            <a href="#" className="block px-3 py-2 text-gray-600 hover:text-gray-900">Popular</a>
+            <a href="#" className="block px-3 py-2 text-gray-600 hover:text-gray-900">New</a>
+            <a href="#" className="block px-3 py-2 text-gray-600 hover:text-gray-900">Reading list</a>
+            <a href="/topics" className="block px-3 py-2 text-gray-600 hover:text-gray-900">Topics</a>
+            {isloggedin ? (
+              <>
+                <span className="block px-3 py-2 text-gray-600">Welcome, {userDetails?.username}</span>
+                <button
+                  onClick={onLogout}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => window.location.href = '/login'}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Login / Register
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+};
+
+export default Navbar;

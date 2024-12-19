@@ -1,8 +1,8 @@
 // AuthPage.jsx
 import React, { useState } from 'react';
 import { Mail, Lock, User, ArrowRight } from 'lucide-react';
-import Header from './header.jsx';
-import {useAuth} from "../contexts/AuthContext.jsx";
+import Header from '../layout/header.jsx';
+import {useAuth} from "../../contexts/AuthContext.jsx";
 
 const AuthPage = () => {
   const { login, register } = useAuth()
@@ -32,15 +32,14 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-indigo-100">
-      <Header isLoggedIn={false} />
+    <div >
 
       <main className="flex items-center justify-center p-4 pt-20">
         <div className="w-full max-w-md bg-white rounded-lg shadow-md overflow-hidden">
           <div className="p-6 space-y-6">
             <div className="text-center space-y-2">
               <h2 className="text-2xl font-bold text-gray-900">
-                {isLogin ? 'Welcome back!' : 'Create an account'}
+                {isLogin ? 'Login' : 'Create an account'}
               </h2>
               <p className="text-gray-500">
                 {isLogin

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 
-const Header = ({ isloggedin=true, userDetails, onLogout }) => {
+const Header = ({ isloggedin, userDetails, onLogout }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (

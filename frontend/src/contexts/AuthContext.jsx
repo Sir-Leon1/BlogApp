@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginApi, registerApi } from "../services/auth";
+import { loginApi, registerApi } from "../services/authApi.js";
+import LoadingSpinner from "../components/universal/LoadingSpinner/loadingSpinner";
 
 const AuthContext = createContext();
 
@@ -9,11 +10,12 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [access_token, setAccess] = useState(null);
   const [refresh_token, setRefresh] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   // Function to log in (get JWT from server)
   const login = async (email, password) => {
-
+    setLoading(true);
     const response = await loginApi(email, password);
     console.log(response);
 
@@ -27,10 +29,13 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('access_token', access_token);// Store token
       console.log(localStorage.getItem('access_token'));
       localStorage.setItem('refresh_token', refresh_token);  // Store user info
+
       navigate('/');  // Navigate to protected route after login
+      window.location.reload();
     } else {
       alert('Login Failed: Incorrect Login Details');
     }
+    setLoading(false);
   };
 
   //Function to register create a new user
@@ -47,23 +52,26 @@ export const AuthProvider = ({ children }) => {
       console.log(localStorage.getItem('access_token'));
       localStorage.setItem('refresh_token', refresh_token);  // Store user info
       navigate('/');  // Navigate to protected route after login
+      window.location.reload();
     } else {
       alert('Registration Failed' + response.data.message);
   }}
 
   // Function to log out
   const logout = () => {
+    setLoading(true);
     setAccess(null);
     setRefresh(null);
     localStorage.removeItem('access_token');  // Clear token from localStorage
     localStorage.removeItem('refresh_token');   // Clear user data
-    navigate('/loginreg');
+    navigate('/featured');
+    window.location.reload();
+    setLoading(false);
   };
 
   // Check localStorage to persist login status
   useEffect(() => {
     const storedAccess = localStorage.getItem('access_token');
-    console.log(storedAccess);
     const storedRefresh = localStorage.getItem('refresh_token');
     if (storedAccess && storedRefresh) {
       setAccess(storedAccess);
@@ -73,6 +81,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ refresh_token, access_token, login, logout, register }}>
+      {loading && <LoadingSpinner />}
       {children}
     </AuthContext.Provider>
   );

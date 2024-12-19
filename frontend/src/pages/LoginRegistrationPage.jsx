@@ -1,6 +1,6 @@
 import React from 'react';
-import header from '../components/header.jsx';
-import AuthForm from '../components/AuthForm.jsx';
+import header from '../components/layout/header.jsx';
+import AuthForm from '../components/loginReg/AuthForm.jsx';
 
 function LoginRegistrationPage() {
   return (
