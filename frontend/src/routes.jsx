@@ -7,6 +7,7 @@ import {AuthProvider} from "./contexts/AuthContext.jsx";
 import TopicsPage from "./pages/TopicsPage.jsx";
 import Author from "./pages/Author.jsx";
 import BlogPost from "./pages/BlogPost.jsx";
+import AllReadingLists from "./pages/AllReadingLists.jsx";
 
 
 function AppRoutes() {
@@ -18,6 +19,7 @@ function AppRoutes() {
           <Route path="/" element={<FeaturedPosts/>}/>
           <Route path="/featured" element={<FeaturedPosts/>}/>
           <Route path="/login" element={<LoginRegistrationPage/>}/>
+          <Route path="/readinglists" element={<AllReadingLists/>}/>
           <Route path="/topics" element={<TopicsPage/>}/>
           <Route path="/topics/:topicId" element={<TopicsPage/>}/>
           <Route path="/topics/:topicId/:postId" element={<TopicsPage/>}/>

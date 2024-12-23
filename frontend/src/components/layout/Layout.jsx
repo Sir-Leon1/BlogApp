@@ -5,7 +5,7 @@ import {useAuth} from "../../contexts/AuthContext.jsx";
 
 const Layout = ({ children }) => {
   const { logout } = useAuth();
-  const [isloggedin, setIsloggedin] = React.useState(false);
+  const [isloggedin, setIsloggedin] = React.useState(true);
   React.useEffect(() => {
     if (localStorage.getItem('access_token')) {
       setIsloggedin(true);

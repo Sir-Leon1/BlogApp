@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Menu, X} from 'lucide-react';
 import SearchBar from "./Navigation/searchbar.jsx";
+import ProfileButton from "./Navigation/ProfileButton.jsx";
 
 const Navbar = ({isloggedin, userDetails, onLogout}) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -23,7 +24,7 @@ const Navbar = ({isloggedin, userDetails, onLogout}) => {
                             <a href="/" className="text-gray-600 hover:text-gray-900">Home</a>
                             <a href="#" className="text-gray-600 hover:text-gray-900">Popular</a>
                             <a href="#" className="text-gray-600 hover:text-gray-900">New</a>
-                            <a href="#" className="text-gray-600 hover:text-gray-900">Reading list</a>
+                            <a href="/readinglists" className="text-gray-600 hover:text-gray-900">Reading list</a>
                             <a href="/topics" className="text-gray-600 hover:text-gray-900">Topics</a>
                         </div>
                     </div>
@@ -39,15 +40,7 @@ const Navbar = ({isloggedin, userDetails, onLogout}) => {
                 </div>
                 <div className="hidden sm:flex items-center space-x-4">
                     {isloggedin ? (
-                        <>
-                            <span className="text-gray-600">Profile: {userDetails?.username}</span>
-                            <button
-                                onClick={onLogout}
-                                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            >
-                                Logout
-                            </button>
-                        </>
+                        <ProfileButton isMobileMenuOpen={isMobileMenuOpen}/>
                     ) : (
                         <button
                             onClick={scrollToFooter}
@@ -77,18 +70,11 @@ const Navbar = ({isloggedin, userDetails, onLogout}) => {
                         <a href="/" className="block px-3 py-2 text-gray-600 hover:text-gray-900">Home</a>
                         <a href="#" className="block px-3 py-2 text-gray-600 hover:text-gray-900">Popular</a>
                         <a href="#" className="block px-3 py-2 text-gray-600 hover:text-gray-900">New</a>
-                        <a href="#" className="block px-3 py-2 text-gray-600 hover:text-gray-900">Reading list</a>
+                        <a href="/readinglists" className="block px-3 py-2 text-gray-600 hover:text-gray-900">Reading
+                            list</a>
                         <a href="/topics" className="block px-3 py-2 text-gray-600 hover:text-gray-900">Topics</a>
                         {isloggedin ? (
-                            <>
-                                <span className="block px-3 py-2 text-gray-600">Welcome, {userDetails?.username}</span>
-                                <button
-                                    onClick={onLogout}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                >
-                                    Logout
-                                </button>
-                            </>
+                            <ProfileButton isMobileMenuOpen={isMobileMenuOpen}/>
                         ) : (
                             <button
                                 onClick={() => window.location.href = '/login'}
