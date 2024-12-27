@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Layout from '../components/layout/Layout';
 import FeaturedPost from '../components/featuredpage/FeaturedPost.jsx';
 import ReadingList from '../components/featuredpage/ReadingList.jsx';
 import ArticleCard from '../components/featuredpage/ArticleCard.jsx';
 import ArticleCard2 from "../components/featuredpage/ArticleCard2.jsx";
+import { featuredPost } from '../services/blogApi';
 
 const FeaturedPosts = () => {
+    const [featured_Post, setFeaturedPost] = useState({});
+    const [readingList, setReadingList] = useState([]);
   const categories = [
     { id: 1, name: 'UI design', image: 'https://images.unsplash.com/photo-1721332155433-3a4b5446bcd9?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8' },
     { id: 2, name: 'UX design', image: 'https://images.unsplash.com/photo-1702884163621-ded464345868?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw3fHx8ZW58MHx8fHx8' },
@@ -14,13 +17,19 @@ const FeaturedPosts = () => {
     { id: 5, name: 'Essentials', image: 'https://images.unsplash.com/photo-1720048170996-40507a45c720?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzMXx8fGVufDB8fHx8fA%3D%3D' },
   ];
 
+  const fetchFeaturedPost = async () => {
+    const response = await featuredPost();
+    setFeaturedPost(response.data);
+  }
+  fetchFeaturedPost();
+
   return (
     <Layout>
       <FeaturedPost
-        title="How to accept rejection gracefully — and use it to grow"
-        author="TOMAS LAURINAVICIUS"
-        category="INSPIRATION"
-        description="User research is the really check every project needs. Here's our guide to why you should be doing it — and how to get started."
+        title={featured_Post.title}
+        author={featured_Post.author}
+        category={featured_Post.category}
+        description={featured_Post.description}
       />
 
       <ReadingList categories={categories} />
