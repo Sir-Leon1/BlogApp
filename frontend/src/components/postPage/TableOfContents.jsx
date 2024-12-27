@@ -30,7 +30,7 @@ const TableOfContents = () => {
 
   return (
     <motion.div
-      className="fixed right-8 top-1/3 w-64 bg-white p-4 rounded-lg shadow-lg"
+      className="fixed right-8 top-1/3 w-64 bg-white p-4 rounded-lg shadow-lg hidden lg:block"
       initial={{ x: 100 }}
       animate={{ x: 0 }}
       transition={{ duration: 0.5 }}

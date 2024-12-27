@@ -9,6 +9,7 @@ import Comments from '../components/postPage/Comments';
 import ProgressBar from '../components/postPage/ProgressBar';
 import TableOfContents from '../components/postPage/TableOfContents';
 import Layout from "../components/layout/Layout.jsx";
+import SocialShareSmll from "../components/postPage/SocialShareSmll.jsx";
 
 const BlogPostPage = () => {
   return (
@@ -22,8 +23,9 @@ const BlogPostPage = () => {
       >
         <BlogPostHeader />
         <SocialShare />
-        <TableOfContents />
+
         <BlogContent />
+        <SocialShareSmll />
         <AuthorBio />
         <RelatedPosts />
         <Comments />
