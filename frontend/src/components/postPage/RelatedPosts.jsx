@@ -17,11 +17,11 @@ const RelatedPosts = () => {
       <h2 className="text-xl font-bold mb-6">You might also like...</h2>
       <div className="flex gap-6">
         <RelatedPost
-          image="/related-1.jpg"
+          image="https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGRlc2lnbnxlbnwwfHwwfHx8MA%3D%3D"
           title="Web page layout 101: website anatomy every designer needs to learn"
         />
         <RelatedPost
-          image="/related-2.jpg"
+          image="https://plus.unsplash.com/premium_photo-1661382011487-cd3d6b1d9dff?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZGVzaWdufGVufDB8fDB8fHww"
           title="Web page layout 101: website anatomy every designer needs to learn"
         />
       </div>

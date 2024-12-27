@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Heart, Share2, MessageSquare, Bookmark } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const SocialShare = () => {
+const SocialShareUnderHeader = () => {
   const [likes, setLikes] = useState(0);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [showShareTooltip, setShowShareTooltip] = useState(false);
@@ -18,9 +18,9 @@ const SocialShare = () => {
 
   return (
     <motion.div
-      className="fixed left-8 top-1/3 sm:flex flex-col space-y-4 hidden"
-      initial={{ x: -100 }}
-      animate={{ x: 0 }}
+      className="flex justify-center space-x-4 mt-4 mb-4 lg:hidden"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
       <motion.button
@@ -86,4 +86,4 @@ const SocialShare = () => {
   );
 };
 
-export default SocialShare;
+export default SocialShareUnderHeader;
