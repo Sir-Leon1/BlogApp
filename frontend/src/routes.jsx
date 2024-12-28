@@ -8,6 +8,7 @@ import TopicsPage from "./pages/TopicsPage.jsx";
 import Author from "./pages/Author.jsx";
 import BlogPost from "./pages/BlogPost.jsx";
 import AllReadingLists from "./pages/AllReadingLists.jsx";
+import UserProfile from "./pages/UserProfile.jsx";
 
 
 function AppRoutes() {
@@ -26,6 +27,7 @@ function AppRoutes() {
           <Route path="/authors" element={<Author/>}/>
           <Route path="/authors/:authorId" element={<Author/>}/>
           <Route path="/blogtestpost" element={<BlogPost/>}/>
+          <Route path="/profile" element={<UserProfile/>}/>
 
         </Routes>
       </AuthProvider>

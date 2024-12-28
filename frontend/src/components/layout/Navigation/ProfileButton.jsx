@@ -5,7 +5,7 @@ function ProfileButton({isMobileMenuOpen})  {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate("/authors");
+        navigate("/profile");
     }
     return (
         <>

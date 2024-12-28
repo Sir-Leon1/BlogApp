@@ -5,7 +5,7 @@ const ReadingList = ({ categories }) => {
     <section className="my-8">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">Reading lists</h2>
-        <a href="#" className="text-pink-500">View all</a>
+        <a href="/readinglists" className="text-pink-500">View all</a>
       </div>
       <div className="grid grid-cols-5 gap-4">
         {categories.map((category) => (

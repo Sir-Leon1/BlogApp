@@ -56,16 +56,38 @@ export const ProfileProvider = ({ children }) => {
         ]
     });
 
-    // ... existing profile state and handlers ...
+    const [editedProfile, setEditedProfile] = useState(profile);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditedProfile(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const saveChanges = () => {
+        setProfile(editedProfile);
+    };
+
+    const cancelChanges = () => {
+        setEditedProfile(profile);
+    };
+
 
     return (
         <ProfileContext.Provider value={{
             profile,
             blogStats,
             posts,
-            // ... existing context values ...
+            editedProfile,
+            handleInputChange,
+            saveChanges,
+            cancelChanges
         }}>
             {children}
         </ProfileContext.Provider>
     );
 };
+
+export const useProfile = () => useContext(ProfileContext);

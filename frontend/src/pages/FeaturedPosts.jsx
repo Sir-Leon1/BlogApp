@@ -4,11 +4,12 @@ import FeaturedPost from '../components/featuredpage/FeaturedPost.jsx';
 import ReadingList from '../components/featuredpage/ReadingList.jsx';
 import ArticleCard from '../components/featuredpage/ArticleCard.jsx';
 import ArticleCard2 from "../components/featuredpage/ArticleCard2.jsx";
-import {featuredPost, readingList} from '../services/blogApi';
+import {blogList, featuredPost, readingList} from '../services/blogApi';
 
 const FeaturedPosts = () => {
     const [featured_Post, setFeaturedPost] = useState({});
     const [reading_List, setReadingList] = useState([]);
+    const [popular_Articles, setPopularArticles] = useState([]);
   const categories = [
     { id: 1, name: 'UI design', image: 'https://images.unsplash.com/photo-1721332155433-3a4b5446bcd9?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8' },
     { id: 2, name: 'UX design', image: 'https://images.unsplash.com/photo-1702884163621-ded464345868?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw3fHx8ZW58MHx8fHx8' },
@@ -29,6 +30,12 @@ const FeaturedPosts = () => {
   }
   fetchReadingList().then(r => console.log(r)   );
 
+  const fetchPopularArticles = async () => {
+    const response = await blogList();
+    setPopularArticles(response.data);
+  }
+  fetchPopularArticles().then(r => console.log(r));
+
   return (
     <Layout>
       <FeaturedPost
@@ -46,22 +53,27 @@ const FeaturedPosts = () => {
           <a href="#" className="text-pink-500">View all</a>
         </div>
         <div className="space-y-4">
+          {popular_Articles.map((article, index) => (
+            index % 2 === 0 ? (
           <ArticleCard
-            title="Web page layout 101: website anatomy every designer needs to learn"
-            author="TOMAS LAURINAVICIUS"
-            category="DESIGN PROCESS"
-            description="User research is the really check every project needs. Here's our guide to why you should be doing it — and how to get started."
-            image="https://images.unsplash.com/photo-1732740674539-74d1f760acfa?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw0NHx8fGVufDB8fHx8fA%3D%3D"
+            key={article.id}
+            title={article.title}
+            author={article.author}
+            category={article.category}
+            description={article.description}
+            image={article.image}
           />
+          ) : (
           <ArticleCard2
-            title="Web page layout 101: website anatomy every designer needs to learn"
-            author="TOMAS LAURINAVICIUS"
-            category="DESIGN PROCESS"
-            description="User research is the really check every project needs. Here's our guide to why you should be doing it — and how to get started."
-            image="https://images.unsplash.com/photo-1720048170996-40507a45c720?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzMXx8fGVufDB8fHx8fA%3D%3D"
+            key={article.id}
+            title={article.title}
+            author={article.author}
+            category={article.category}
+            description={article.description}
+            image={article.image}
           />
-          {/* Add more ArticleCards as needed */}
-
+            )
+          ))}
         </div>
       </section>
     </Layout>
