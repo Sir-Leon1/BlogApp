@@ -24,9 +24,9 @@ function AppRoutes() {
           <Route path="/topics" element={<TopicsPage/>}/>
           <Route path="/topics/:topicId" element={<TopicsPage/>}/>
           <Route path="/topics/:topicId/:postId" element={<TopicsPage/>}/>
-          <Route path="/authors" element={<Author/>}/>
-          <Route path="/authors/:authorId" element={<Author/>}/>
-          <Route path="/blogtestpost" element={<BlogPost/>}/>
+          <Route path="/author" element={<Author/>}/>
+          <Route path="/author/:authorid" element={<Author/>}/>
+          <Route path="/article/:articleid" element={<BlogPost/>}/>
           <Route path="/profile" element={<UserProfile/>}/>
 
         </Routes>

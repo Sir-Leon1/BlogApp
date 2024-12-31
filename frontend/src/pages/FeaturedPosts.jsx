@@ -4,12 +4,17 @@ import FeaturedPost from '../components/featuredpage/FeaturedPost.jsx';
 import ReadingList from '../components/featuredpage/ReadingList.jsx';
 import ArticleCard from '../components/featuredpage/ArticleCard.jsx';
 import ArticleCard2 from "../components/featuredpage/ArticleCard2.jsx";
-import {blogList, featuredPost, readingList} from '../services/blogApi';
+import {getpopularTags, featuredPost, getlatestArticles} from '../services/blogApi';
+import {useNavigate} from "react-router-dom";
 
 const FeaturedPosts = () => {
     const [featured_Post, setFeaturedPost] = useState({});
-    const [reading_List, setReadingList] = useState([]);
-    const [popular_Articles, setPopularArticles] = useState([]);
+    const [popularTags, setPopularTags] = useState([]);
+    const [latestArticles, setLatestArticles] = useState([]);
+    const navigate = useNavigate();
+    /**
+     * TODO: REMOVE THIS HARDCODED DATA
+     * */
   const categories = [
     { id: 1, name: 'UI design', image: 'https://images.unsplash.com/photo-1721332155433-3a4b5446bcd9?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8' },
     { id: 2, name: 'UX design', image: 'https://images.unsplash.com/photo-1702884163621-ded464345868?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw3fHx8ZW58MHx8fHx8' },
@@ -24,28 +29,34 @@ const FeaturedPosts = () => {
   }
   fetchFeaturedPost().then(r => console.log(r));
 
-  const fetchReadingList = async () => {
-      const response = await readingList();
-      setReadingList(response.data);
+  const fetchPopularTags = async () => {
+      const response = await getpopularTags();
+      setPopularTags(response.data);
   }
-  fetchReadingList().then(r => console.log(r)   );
+  fetchPopularTags().then(r => console.log(r)   );
 
-  const fetchPopularArticles = async () => {
-    const response = await blogList();
-    setPopularArticles(response.data);
+  const fetchLatestArticles = async () => {
+    const response = await getlatestArticles();
+    setLatestArticles(response.data);
   }
-  fetchPopularArticles().then(r => console.log(r));
+  fetchLatestArticles().then(r => console.log(r));
+
+  function handleArticleClick(id) {
+    navigate(`/article/${id}`);
+  }
 
   return (
     <Layout>
       <FeaturedPost
         title={featured_Post.title}
         author={featured_Post.author}
+        authorid={featured_Post.authorid}
         category={featured_Post.category}
         description={featured_Post.description}
+        onClick = {() => handleArticleClick(featured_Post.id)}
       />
 
-      <ReadingList categories={reading_List} />
+      <ReadingList categories={popularTags} />
 
       <section className="my-8">
         <div className="flex justify-between items-center mb-4">
@@ -53,24 +64,28 @@ const FeaturedPosts = () => {
           <a href="#" className="text-pink-500">View all</a>
         </div>
         <div className="space-y-4">
-          {popular_Articles.map((article, index) => (
+          {latestArticles.map((article, index) => (
             index % 2 === 0 ? (
           <ArticleCard
             key={article.id}
             title={article.title}
             author={article.author}
+            authorid={article.authorid}
             category={article.category}
             description={article.description}
             image={article.image}
+            onClick={() => handleArticleClick(article.id)}
           />
           ) : (
           <ArticleCard2
             key={article.id}
             title={article.title}
             author={article.author}
+            authorid={article.authorid}
             category={article.category}
             description={article.description}
             image={article.image}
+            onClick={() => handleArticleClick(article.id)}
           />
             )
           ))}

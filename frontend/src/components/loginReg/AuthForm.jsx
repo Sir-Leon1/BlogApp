@@ -34,7 +34,7 @@ const AuthForm = () => {
              src="https://plus.unsplash.com/premium_photo-1677567996070-68fa4181775a?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Ym9va3N8ZW58MHx8MHx8fDA%3D"/>
       </div>
       <main className="flex items-center justify-center p-4">
-        <div className="w-full max-w-md bg-grey text-white rounded-lg shadow-md overflow-hidden">
+        <div className="w-full max-w-md bg-grey text-white rounded-lg overflow-hidden">
           <div className="p-6 space-y-6">
             <div className="text-center space-y-2">
               <h2 className="text-2xl font-bold ">

@@ -23,7 +23,7 @@ export const profileUpdate = async ( data ) => {
     }
 }
 
-export const readingHistory = async (id) => {
+export const getreadingHistory = async (id) => {
     try {
         const response = await apiClient.get(`/users/history/${id}`);
         return response;

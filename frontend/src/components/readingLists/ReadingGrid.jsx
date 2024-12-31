@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReadingCard from './ReadingCard';
+import {getreadingHistory} from '../../services/userApi';
 
+/** TODO: remove this hard coded data */
 const readingItems = [
     {
         id: 1,
@@ -18,6 +20,14 @@ const readingItems = [
 ];
 
 const ReadingGrid = () => {
+    const [readingItems, setReadingItems] = useState([]);
+
+    const fetchReadingItems = async () => {
+        const response = await getreadingHistory();
+        setReadingItems(response.data);
+    }
+    fetchReadingItems().then(r => console.log(r));
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {readingItems.map(item => (

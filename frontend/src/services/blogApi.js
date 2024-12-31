@@ -10,7 +10,17 @@ export const specificBlog = async (id) => {
     }
 }
 
-export const blogList = async () => {
+export const getSpecificBlogAuthor = async (id) => {
+    try {
+        const response = await apiClient.get(`/blogs/:${id}/author`);
+        return response;
+    } catch (error) {
+        console.error(error);
+        return error.response;
+    }
+}
+
+export const getlatestArticles = async () => {
     try {
         const response = await apiClient.get('/blogs');
         return response;
@@ -20,7 +30,7 @@ export const blogList = async () => {
     }
 }
 
-export const specificBlogList = async (user_id) => {
+export const getAuthorsBlogList = async (user_id) => {
     try {
         const response = await apiClient.get(`/blogs/users/${user_id}`);
         return response;
@@ -57,6 +67,16 @@ export const updateBlog = async ( data ) => {
 export const deleteBlog = async ( id ) => {
     try {
         const response = await apiClient.delete(`/blogs/:${id}`);
+        return response;
+    } catch (error) {
+        console.error(error);
+        return error.response;
+    }
+}
+
+export const getpopularTags = async () => {
+    try {
+        const response = await apiClient.get('/blogs/tags');
         return response;
     } catch (error) {
         console.error(error);
