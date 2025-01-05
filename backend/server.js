@@ -6,11 +6,13 @@ const connectDB = require('./config/db');
 const dotenv = require('dotenv');
 
 const authRoutes = require('./routes/authRoutes');
+const blogRoutes = require('./routes/blogRoutes');
+const tagRoutes = require('./routes/tagRoutes');
 
 dotenv.config();
 
 const app = express();
-connectDB();
+connectDB().then(r => console.log('Connected to MongoDB'));
 
 // Middleware
 app.use(express.json());
@@ -23,6 +25,8 @@ app.get('/', (req, res) => {
 
 // Example: app.use('/api/posts', require('./routes/postRoutes'));
 app.use('/api/auth', authRoutes);
+app.use('/api/b', blogRoutes);
+app.use('/api/t', tagRoutes);
 
 
 app.use((req, res, next) => {

@@ -1,6 +1,14 @@
 import React from 'react';
+import {useNavigate} from "react-router-dom";
 
-const FeaturedPost = ({title, author, category, description}) => {
+const FeaturedPost = ({title, author, authorid, category, description}) => {
+  const navigate = useNavigate();
+
+  const handleAuthorClick = (e) => {
+    e.stopPropagation();
+    navigate(`/author/${authorid}`);
+  }
+
   return (
     <div className="relative bg-purple-900 text-white rounded-lg p-8"
          style={{
@@ -12,7 +20,7 @@ const FeaturedPost = ({title, author, category, description}) => {
       <div className={"absolute inset-0 bg-purple-900 opacity-75 rounded-lg"}></div>
       <div className="relative z-10">
         <div className="mb-4">
-          <span className="text-sm">BY {author}</span>
+          <span className="text-sm" onClick={handleAuthorClick}>BY {author}</span>
           <span className="mx-2">•</span>
           <span className="text-sm uppercase">{category}</span>
         </div>

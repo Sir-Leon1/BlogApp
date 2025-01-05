@@ -1,5 +1,5 @@
-import React from 'react';
-import { Twitter } from 'lucide-react';
+import React, {useState} from 'react';
+import {Facebook, Github, Link, Linkedin, Twitter} from 'lucide-react';
 
 const PopularPost = ({ image, category, title }) => {
   return (
@@ -16,59 +16,102 @@ const PopularPost = ({ image, category, title }) => {
 };
 
 const Calendar = () => {
+  const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  const currentDate = new Date();
+  const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+  const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
+
+  const generateCalendar = () => {
+    const calendar = [];
+    let day = 1;
+
+    for (let i = 0; i < 6; i++) {
+      const week = [];
+      for (let j = 0; j < 7; j++) {
+        if (i === 0 && j < firstDayOfMonth) {
+          week.push(<td key={j}></td>);
+        } else if (day > daysInMonth) {
+          week.push(<td key={j}></td>);
+        } else {
+          const isToday = day === currentDate.getDate();
+          week.push(
+            <td key={j} className={isToday ? 'bg-blue-500 text-white rounded-full' : ''}>
+              {day}
+            </td>
+          );
+          day++;
+        }
+      }
+      calendar.push(<tr key={i}>{week}</tr>);
+    }
+    return calendar;
+  };
+
   return (
-    <div className="bg-white rounded-lg p-4 mb-8">
+    <div className="bg-gray-800 text-white rounded-lg p-4 mb-8">
       <table className="w-full">
         <thead>
-        <tr>
-          <th className="py-2">S</th>
-          <th className="py-2">M</th>
-          <th className="py-2">T</th>
-          <th className="py-2">W</th>
-          <th className="py-2">T</th>
-          <th className="py-2">F</th>
-          <th className="py-2">S</th>
-        </tr>
+          <tr>
+            {daysOfWeek.map((day, index) => (
+              <th key={index} className="py-2">{day}</th>
+            ))}
+          </tr>
         </thead>
         <tbody>
-        {/* Calendar rows would be dynamically generated */}
+          {generateCalendar()}
         </tbody>
       </table>
     </div>
   );
 };
 
-const Sidebar = () => {
+
+const Sidebar = ({posts, socialLinks}) => {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+  const filteredPosts = posts.filter(post =>
+    post.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  const topPosts = posts.slice(0, 3);
+  const searchPosts = filteredPosts.slice(0, 4);
+
   return (
     <div className="lg:w-80">
       <div className="mb-8">
         <input
           type="search"
-          placeholder="Type something..."
+          placeholder="Search for a post..."
           className="w-full p-2 border rounded-lg"
+          value={searchQuery}
+          onChange={handleSearchChange}
         />
       </div>
 
       <div className="mb-8">
-        <h2 className="font-bold mb-4">POPULAR POST</h2>
-        <PopularPost
-          image="https://plus.unsplash.com/premium_photo-1682089708808-8fa18c1828dc?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHVyYmFufGVufDB8fDB8fHww"
-          category="Design Process"
-          title="Our 15 favorite websites from August"
-        />
-        <h2 className="font-bold mb-4">POPULAR POST</h2>
-        <PopularPost
-          image="https://plus.unsplash.com/premium_photo-1682089708808-8fa18c1828dc?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHVyYmFufGVufDB8fDB8fHww"
-          category="Design Process"
-          title="Our 15 favorite websites from August"
-        />
-        <h2 className="font-bold mb-4">POPULAR POST</h2>
-        <PopularPost
-          image="https://plus.unsplash.com/premium_photo-1682089708808-8fa18c1828dc?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHVyYmFufGVufDB8fDB8fHww"
-          category="Design Process"
-          title="Our 15 favorite websites from August"
-        />
-        {/* More PopularPosts */}
+        <h2 className="font-bold mb-4">Search Results</h2>
+        {searchPosts.map((post, index) => (
+          <PopularPost
+            key={index}
+            image={post.image}
+            category={post.category}
+            title={post.title}
+          />
+        ))}
+      </div>
+
+      <div className="mb-8">
+        <h2 className="font-bold mb-4">POPULAR POSTS</h2>
+        {topPosts.map((post, index) => (
+          <PopularPost
+            key={index}
+            image={post.image}
+            category={post.category}
+            title={post.title}
+          />
+        ))}
       </div>
 
       <div className="mb-8">
@@ -83,19 +126,31 @@ const Sidebar = () => {
         </button>
       </div>
 
-      <Calendar />
+      <Calendar/>
 
       <div className="mb-8">
         <h2 className="font-bold mb-4">SOCIAL MEDIA</h2>
         <div className="flex space-x-4">
-          <a href="#" className="text-pink-500 hover:text-pink-600">
-            <Twitter size={20} />
+          <a href={socialLinks.githublink} className="text-gray-400 hover:text-gray-600">
+            <Github size={20}/>
           </a>
-          {/* More social media icons */}
+          <a href={socialLinks.twitterlink} className="text-gray-400 hover:text-gray-600">
+            <Twitter size={20}/>
+          </a>
+          <a href={socialLinks.facebooklink} className="text-gray-400 hover:text-gray-600">
+            <Facebook size={20}/>
+          </a>
+          <a href={socialLinks.linkedinlink} className="text-gray-400 hover:text-gray-600">
+            <Linkedin size={20}/>
+          </a>
+          <a href={socialLinks.profilelink} className="text-gray-400 hover:text-gray-600">
+            <Link size={20}/>
+          </a>
+            {/* More social media icons */}
         </div>
       </div>
     </div>
-  );
+);
 };
 
 export default Sidebar;

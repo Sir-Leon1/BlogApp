@@ -1,11 +1,10 @@
-import axios from 'axios';
-const API_URL = 'http://localhost:5000/api/auth/';
+import apiClient from "./api.js";
 
 export const loginApi = async (email, password) => {
   try {
-    const response = await axios.post(`${API_URL}login`,
-      { email, password },
-      { headers: { 'Content-Type': 'application/json' } });
+    const response = await apiClient.post('/auth/login',
+      { email, password }
+      );
     return response;
   } catch (error) {
     console.error(error);
@@ -15,14 +14,34 @@ export const loginApi = async (email, password) => {
 
 export const registerApi = async (username, email, password) => {
   try {
-    const response = await axios.post(`${API_URL}register`,
-      { username, email, password },
-      { headers: { 'Content-Type': 'application/json' } });
+    return await apiClient.post('/auth/register',
+      {username, email, password});
+  } catch (error) {
+    console.error(error);
+    return error.response;
+  }
+}
+
+export const logoutApi = async  () => {
+  try {
+    const response = await apiClient.post('/auth/logout',
+        {});
     return response;
   } catch (error) {
     console.error(error);
     return error.response;
   }
+}
+
+export const passwordReset = async (email) => {
+    try {
+        const response = await apiClient.post('/auth/password-reset',
+        { email });
+        return response;
+    } catch (error) {
+        console.error(error);
+        return error.response;
+    }
 }
 
 
