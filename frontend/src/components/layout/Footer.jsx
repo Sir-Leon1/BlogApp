@@ -2,7 +2,6 @@ import React from 'react';
 import AuthPage from "../loginReg/AuthForm.jsx";
 import SignIn from "../loginReg/SignIn.jsx";
 import AuthForm from "../loginReg/AuthForm.jsx";
-import TestComponent from "../../contexts/AuthContext.test.jsx";
 
 const Footer = ({isloggedin}) => {
   const [isSignUp, setIsSignUp] = React.useState(false);
