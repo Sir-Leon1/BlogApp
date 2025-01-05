@@ -40,28 +40,32 @@ const ProfilePosts = () => {
     const [activeTab, setActiveTab] = useState("published");
 
     return (
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="mb-4">
-                <TabsTrigger value="published">
-                    Published ({posts.published.length})
-                </TabsTrigger>
-                <TabsTrigger value="drafts">
-                    Drafts ({posts.drafts.length})
-                </TabsTrigger>
-            </TabsList>
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <TabsList className="mb-4">
+          <TabsTrigger value="published">
+            Published ({posts.published.length})
+          </TabsTrigger>
+          <TabsTrigger value="drafts">
+            Drafts ({posts.drafts.length})
+          </TabsTrigger>
+        </TabsList>
 
-            <TabsContent value="published">
-                {posts.published.map(post => (
-                    <PostCard key={post.id} post={post} />
-                ))}
-            </TabsContent>
+        <TabsContent value="published">
+          {posts.published.map(post => (
+            <PostCard key={post.id} post={post}/>
+          ))}
+        </TabsContent>
 
-            <TabsContent value="drafts">
-                {posts.drafts.map(post => (
-                    <PostCard key={post.id} post={post} />
-                ))}
-            </TabsContent>
-        </Tabs>
+        <TabsContent value="drafts">
+          {posts.drafts.map(post => (
+            <PostCard key={post.id} post={post}/>
+          ))}
+        </TabsContent>
+        <button
+          className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-20 ml-4"
+        >Logout
+        </button>
+      </Tabs>
     );
 };
 

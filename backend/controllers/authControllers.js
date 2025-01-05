@@ -50,4 +50,13 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const logout = async (req, res) => {
+  try {
+    res.status(200).json({ message: 'Logged out successfully' });
+  } catch (err) {
+    console.error('Error:', err.message);
+    res.status(500).json({ error: 'An unexpected error occurred' });
+  }
+}
+
+module.exports = { register, login, logout };

@@ -14,16 +14,15 @@ export const loginApi = async (email, password) => {
 
 export const registerApi = async (username, email, password) => {
   try {
-    const response = await apiClient.post('/auth/register',
-      { username, email, password });
-    return response;
+    return await apiClient.post('/auth/register',
+      {username, email, password});
   } catch (error) {
     console.error(error);
     return error.response;
   }
 }
 
-export const logout = async  () => {
+export const logoutApi = async  () => {
   try {
     const response = await apiClient.post('/auth/logout',
         {});

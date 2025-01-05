@@ -8,9 +8,9 @@ import {getpopularTags, featuredPost, getlatestArticles} from '../services/blogA
 import {useNavigate} from "react-router-dom";
 
 const FeaturedPosts = () => {
-    const [featured_Post, setFeaturedPost] = useState({});
+    //const [featured_Post, setFeaturedPost] = useState({});
     const [popularTags, setPopularTags] = useState([]);
-    const [latestArticles, setLatestArticles] = useState([]);
+    //const [latestArticles, setLatestArticles] = useState([]);
     const navigate = useNavigate();
     /**
      * TODO: REMOVE THIS HARDCODED DATA
@@ -23,23 +23,83 @@ const FeaturedPosts = () => {
     { id: 5, name: 'Essentials', image: 'https://images.unsplash.com/photo-1720048170996-40507a45c720?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzMXx8fGVufDB8fHx8fA%3D%3D' },
   ];
 
-  const fetchFeaturedPost = async () => {
+  const featured_Post = [
+    {
+      id: '1',
+      title: 'First Featured Post',
+      author: 'Author One',
+      authorId: 'author1',
+      category: 'Category One',
+      content: 'This is the content of the first featured post.',
+      image: 'https://via.placeholder.com/150'
+    },
+    {
+      id: '2',
+      title: 'Second Featured Post',
+      author: 'Author Two',
+      authorId: 'author2',
+      category: 'Category Two',
+      content: 'This is the content of the second featured post.',
+      image: 'https://via.placeholder.com/150'
+    },
+    {
+      id: '3',
+      title: 'Third Featured Post',
+      author: 'Author Three',
+      authorId: 'author3',
+      category: 'Category Three',
+      content: 'This is the content of the third featured post.',
+      image: 'https://via.placeholder.com/150'
+    }
+  ];
+
+  const latestArticles = [
+    {
+      id: '1',
+      title: 'First Latest Article',
+      author: 'Author One',
+      authorId: 'author1',
+      category: 'Category One',
+      content: 'This is the content of the first latest article.',
+      image: 'https://via.placeholder.com/150'
+    },
+    {
+      id: '2',
+      title: 'Second Latest Article',
+      author: 'Author Two',
+      authorId: 'author2',
+      category: 'Category Two',
+      content: 'This is the content of the second latest article.',
+      image: 'https://via.placeholder.com/150'
+    },
+    {
+      id: '3',
+      title: 'Third Latest Article',
+      author: 'Author Three',
+      authorId: 'author3',
+      category: 'Category Three',
+      content: 'This is the content of the third latest article.',
+      image: 'https://via.placeholder.com/150'
+    }
+  ];
+
+  /**const fetchFeaturedPost = async () => {
     const response = await featuredPost();
     setFeaturedPost(response.data);
   }
-  fetchFeaturedPost().then(r => console.log(r));
+  fetchFeaturedPost().then(r => console.log(r));*/
 
   const fetchPopularTags = async () => {
       const response = await getpopularTags();
       setPopularTags(response.data);
   }
-  fetchPopularTags().then(r => console.log(r)   );
+  fetchPopularTags().then(r => console.log(r));
 
-  const fetchLatestArticles = async () => {
+  /**const fetchLatestArticles = async () => {
     const response = await getlatestArticles();
     setLatestArticles(response.data);
   }
-  fetchLatestArticles().then(r => console.log(r));
+  fetchLatestArticles().then(r => console.log(r));*/
 
   function handleArticleClick(id) {
     navigate(`/article/${id}`);

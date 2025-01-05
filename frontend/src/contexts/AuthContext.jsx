@@ -17,9 +17,10 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     setLoading(true);
     const response = await loginApi(email, password);
-    console.log(response);
+    setLoading(false);
 
-    if (response.status === 200 || response.status === 201) {
+    if (response && (response.status === 200 || response.status === 201)) {
+      console.log(response.status);
       const data = response.data;
       const { access_token, refresh_token } = data;  // Assuming the server returns a token and user info
 
@@ -27,21 +28,18 @@ export const AuthProvider = ({ children }) => {
       setAccess(access_token);
       setRefresh(refresh_token);
       localStorage.setItem('access_token', access_token);// Store token
-      console.log(localStorage.getItem('access_token'));
       localStorage.setItem('refresh_token', refresh_token);  // Store user info
 
-      navigate('/');  // Navigate to protected route after login
-      window.location.reload();
+      return { status: 'success', data };
     } else {
-      alert('Login Failed: Incorrect Login Details');
+      return { status: 'error', message: 'Incorrect Login Details'};
     }
-    setLoading(false);
   };
 
   //Function to register create a new user
   const register = async (username, email, password) => {
     const response = await registerApi(username, email, password);
-    if (response.status === 200 || response.status === 201) {
+    if (response && (response.status === 200 || response.status === 201)) {
       const data = response.data;
       const { access_token, refresh_token } = data;  // Assuming the server returns a token and user info
 
@@ -49,12 +47,11 @@ export const AuthProvider = ({ children }) => {
       setAccess(access_token);
       setRefresh(refresh_token);
       localStorage.setItem('access_token', access_token);// Store token
-      console.log(localStorage.getItem('access_token'));
       localStorage.setItem('refresh_token', refresh_token);  // Store user info
-      navigate('/');  // Navigate to protected route after login
-      window.location.reload();
+
+      return { status: 'success', data };
     } else {
-      alert('Registration Failed' + response.data.message);
+      return { status: 'error', message: response.error };
   }}
 
   // Function to log out
@@ -64,9 +61,10 @@ export const AuthProvider = ({ children }) => {
     setRefresh(null);
     localStorage.removeItem('access_token');  // Clear token from localStorage
     localStorage.removeItem('refresh_token');   // Clear user data
-    navigate('/featured');
-    window.location.reload();
+
     setLoading(false);
+
+    return { status: 'success' };
   };
 
   // Check localStorage to persist login status

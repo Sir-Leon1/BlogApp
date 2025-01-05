@@ -6,11 +6,11 @@ import Pagination from '../components/author/Pagination';
 import Newsletter from '../components/author/NewsLetter';
 import Layout from "../components/layout/Layout.jsx";
 import {getSpecificBlogAuthor, getAuthorsBlogList} from '../services/blogApi';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const BlogDetailPage = () => {
   const { authorid } = useParams();
-  /** TODO: Remove this hard coded data*/
+  /** TODO: Remove this hard coded data
   const posts = [
     {
       image: "https://images.unsplash.com/photo-1513682121497-80211f36a7d3?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHVyYmFufGVufDB8fDB8fHww",
@@ -31,8 +31,10 @@ const BlogDetailPage = () => {
       linkedinlink: "#",
       profilelink: "#"
   }};
-  //const [postAuthor, setPostAuthor] = useState({});
-  //const [posts, setPosts] = useState([]);
+  */
+  const [postAuthor, setPostAuthor] = useState({});
+  const [posts, setPosts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -45,6 +47,10 @@ const BlogDetailPage = () => {
   useEffect(() => {
     const fetchPostAuthor = async () => {
       const response = await getSpecificBlogAuthor(authorid);
+      if (response.error) {
+        navigate('/404');
+        return;
+      }
       setPostAuthor(response.data);
     }
     fetchPostAuthor().then(r => console.log(r));

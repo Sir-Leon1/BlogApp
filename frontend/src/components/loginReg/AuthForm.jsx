@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Mail, Lock, User, ArrowRight } from 'lucide-react';
 import { useAuth } from "../../contexts/AuthContext.jsx";
+import {useNavigate} from "react-router-dom";
+import AlertPopup from "../universal/AlertPopup/AlertPopup.jsx";
 
 const AuthForm = () => {
   const { login, register } = useAuth();
@@ -10,13 +12,34 @@ const AuthForm = () => {
     password: '',
     username: ''
   });
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertType, setAlertType] = useState('success');
+  const [alertTitle, setAlertTitle] = useState('Success');
+  const [alertMessage, setAlertMessage] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isLogin) {
-      login(formData.email, formData.password);
+      const result = await login(formData.email, formData.password);
+      if (result.status === 'success') {
+        navigate('/');
+        window.location.reload();
+      } else {
+        //alert('Login Failed: ' + result.message);
+        setAlertType('error');
+        setAlertTitle('Error');
+        setAlertMessage('Login Failed: ' + result.message);
+        setShowAlert(true);
+      }
     } else {
-      register(formData.username, formData.email, formData.password);
+      const result = await register(formData.username, formData.email, formData.password);
+      if (result.status === 'success') {
+        navigate('/');
+        window.location.reload();
+      } else {
+        alert('Registration Failed: ' + result.message);
+      }
     }
   };
 
@@ -132,6 +155,15 @@ const AuthForm = () => {
         <img className="w-full h-48 md:h-full object-cover" alt="image"
              src="https://plus.unsplash.com/premium_photo-1677567996070-68fa4181775a?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Ym9va3N8ZW58MHx8MHx8fDA%3D"/>
       </div>
+      {showAlert && (
+        <AlertPopup
+          type={alertType}
+          title={alertTitle}
+          message={alertMessage}
+          position="top-center"
+          duration={5000}
+          onClose={() => setShowAlert(false)}
+        />)}
     </div>
   );
 };
