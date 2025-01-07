@@ -1,10 +1,11 @@
 // src/components/BlogEditor/BlogEditor.js
 import React, { useState } from 'react';
-import { Card } from '@/components/ui/card';
-import Header from '../components/universal/Header';
-import CoverImage from '../components/universal/CoverImage';
-import Tags from '../components/universal/Tags';
-import ContentEditor from '../components/universal/ContentEditor';
+import { Card } from '../../components/ui/card';
+import Header from '../components/BlogEditorPage/Header.jsx';
+import CoverImage from '../components/BlogEditorPage/CoverImage.jsx';
+import Tags from '../components/BlogEditorPage/Tags.jsx';
+import ContentEditor from '../components/BlogEditorPage/ContentEditor.jsx';
+import Layout from "../components/layout/Layout.jsx";
 
 const BlogEditor = () => {
   const [post, setPost] = useState({
@@ -47,7 +48,8 @@ const BlogEditor = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <Layout>
+    <div className="min-h-screen">
       <Header
         isPreview={post.isPreview}
         onTogglePreview={() => setPost(prev => ({ ...prev, isPreview: !prev.isPreview }))}
@@ -55,7 +57,7 @@ const BlogEditor = () => {
       />
 
       <main className="max-w-5xl mx-auto px-4 py-4 sm:py-6 md:py-8">
-        <Card>
+        <>
           <CoverImage
             coverImage={post.coverImage}
             onImageChange={handleImageChange}
@@ -89,9 +91,10 @@ const BlogEditor = () => {
               }))}
             />
           </div>
-        </Card>
+        </>
       </main>
     </div>
+    </Layout>
   );
 };
 

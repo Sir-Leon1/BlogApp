@@ -1,7 +1,6 @@
-// src/components/Header/Header.js
 import React from 'react';
-import { Button } from '@/components/ui/button';
-import { IconBack, IconEye, IconSave } from './icons';
+import { Button } from '../../../components/ui/button';
+import { IconBack, IconEye, IconSave } from './icons.jsx';
 
 const Header = ({ isPreview, onTogglePreview, onPublish }) => (
   <header className="bg-white border-b border-gray-200 sticky top-0 z-10">

@@ -1,4 +1,3 @@
-// src/components/ContentEditor/ContentEditor.js
 import React from 'react';
 
 const ContentEditor = ({ content, isPreview, onChange }) => (

@@ -1,6 +1,5 @@
-// src/components/Tags/Tags.js
 import React, { useState } from 'react';
-import { IconClose } from '../icons/icons';
+import { IconClose } from './icons';
 
 const Tags = ({ tags, onTagAdd, onTagRemove }) => {
   const [currentTag, setCurrentTag] = useState('');
