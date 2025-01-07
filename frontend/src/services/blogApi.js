@@ -2,7 +2,7 @@ import apiClient from "./api.js";
 
 export const specificBlog = async (id) => {
     try {
-        const response = await apiClient.get(`/b/blogs/:${id}`);
+        const response = await apiClient.get(`/b/blogs/${id}`);
         return response;
     } catch (error) {
         console.error(error);
@@ -12,7 +12,7 @@ export const specificBlog = async (id) => {
 
 export const getSpecificBlogAuthor = async (id) => {
     try {
-        const response = await apiClient.get(`/b/blogs/:${id}/author`);
+        const response = await apiClient.get(`/b/blogs/${id}/author`);
         if (response.status === 200) {
             return response;
         } else {
@@ -44,9 +44,9 @@ export const getAuthorsBlogList = async (user_id) => {
     }
 }
 
-export const createBlog = async ( data ) => {
+export const createBlog = async ( data, authorId ) => {
     try {
-        const response = await apiClient.post('/b/blogs',
+        const response = await apiClient.post(`/b/blogs/${authorId}`,
             { data }
         )
         return response;
@@ -56,9 +56,9 @@ export const createBlog = async ( data ) => {
     }
 }
 
-export const updateBlog = async ( data ) => {
+export const updateBlog = async ( id, data ) => {
     try {
-        const response = await apiClient.put(`/b/blogs/:${id}`,
+        const response = await apiClient.put(`/b/blogs/${id}`,
             {data}
         );
         return response;
@@ -68,9 +68,10 @@ export const updateBlog = async ( data ) => {
     }
 }
 
-export const deleteBlog = async ( id ) => {
+export const deleteBlog = async ( data ) => {
+    const id = data.id;
     try {
-        const response = await apiClient.delete(`/b/blogs/:${id}`);
+        const response = await apiClient.delete(`/b/blogs/${id}`,);
         return response;
     } catch (error) {
         console.error(error);
