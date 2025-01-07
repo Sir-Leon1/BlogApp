@@ -1,24 +1,26 @@
 const express = require('express');
-const { createBlog, getBlogs, getBlogById, updateBlog, deleteBlog,
+const {
+  createBlog, getBlogs, getSpecificBlog, updateBlog, deleteBlog,
   getLatestBlogs,
   getBlogsByUser,
   getBlogTags,
   getUserReadHistory,
-  getFeaturedBlog, getBlogAuthor} = require('../controllers/blogControllers');
+  getFeaturedBlog, getBlogAuthor
+} = require('../controllers/blogControllers');
 const { authenticate } = require('../middlewares/auth');
-const { validateBlog } = require('../middlewares/validation');
+const { validateBlog, validateBlogUpdate } = require('../middlewares/validation');
 
 const router = express.Router();
 
-router.post('/blogs', validateBlog, createBlog);
+router.post('/blogs/:authorId', validateBlog, createBlog);
 router.get('/blogs', getBlogs);
-router.get('/blogs/:id', getBlogById);
-router.put('/blogs/:id', validateBlog, updateBlog);
+router.get('/blogs/latest', getLatestBlogs);
+router.put('/blogs/:id', validateBlog, validateBlogUpdate, updateBlog);
 router.delete('/blogs/:id', deleteBlog);
 
+router.get('/blogs/:id/',  getSpecificBlog);
 router.get('/blogs/:id/author',  getBlogAuthor);
-router.get('blogs/latest', getLatestBlogs);
-router.get('/blogs/users/:id', getBlogsByUser);
+router.get('/blogs/users/:user_id', getBlogsByUser);
 
 router.get('/blogs/tags', getBlogTags);
 router.get('/blogs/history/:id', getUserReadHistory);
