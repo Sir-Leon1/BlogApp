@@ -43,6 +43,7 @@ const getBlogs = async (req, res) => {
 
 const getSpecificBlog = async (req, res) => {
   const { id } = req.params;
+  console.log("getSpecificBlog()");
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: 'Invalid blog ID' });
@@ -261,6 +262,7 @@ const getFeaturedBlog = async (req, res) => {
    * Should return a json with the blog that has the most number of likes.
    * */
   try {
+    console.log('here');
     const blog = await Blog.findOne().sort({ likes: -1 }).populate('author', 'username');
     if (!blog) {
       return res.status(404).json({error: 'No blogs found'});
