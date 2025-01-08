@@ -10,6 +10,8 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [access_token, setAccess] = useState(null);
   const [refresh_token, setRefresh] = useState(null);
+  const [user_id, setId] = useState(null);
+  const [user, setUsername] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -23,12 +25,18 @@ export const AuthProvider = ({ children }) => {
       console.log(response.status);
       const data = response.data;
       const { access_token, refresh_token } = data;  // Assuming the server returns a token and user info
+      const { id, username } = data.user;
 
       // Store token and user in state/localStorage
       setAccess(access_token);
       setRefresh(refresh_token);
+      setId(id);
+      setUsername(username);
       localStorage.setItem('access_token', access_token);// Store token
       localStorage.setItem('refresh_token', refresh_token);  // Store user info
+      localStorage.setItem('userId', id);
+      localStorage.setItem('username', username);
+
 
       return { status: 'success', data };
     } else {

@@ -10,7 +10,7 @@ const ReadingList = ({ categories }) => {
       <div className="grid grid-cols-5 gap-4">
         {categories.map((category) => (
           <div key={category.id} className="relative rounded-lg overflow-hidden">
-            <img src={category.image} alt={category.name} className="w-full h-32 object-cover" />
+            <img src={category.image ?? category.imageUrl} alt={category.name} className="w-full h-32 object-cover" />
             <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70">
               <h3 className="text-white text-sm font-medium">{category.name}</h3>
             </div>

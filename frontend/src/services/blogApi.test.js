@@ -5,7 +5,7 @@ describe('blogApi', () => {
   describe('createPost', () => {
     it('creates a post successfully', async () => {
       const newPost = { title: 'New Post', content: 'New Content' };
-      const result = await createBlog({ title: 'New Post', content: 'New Content' }, "675e6ae47bbe53863df4c03f");
+      const result = await createBlog({ title: 'New Post', content: 'New Content' }, "677e2aa51ded5a60da8bd4dd");
       expect(result.data).toHaveProperty('id');
       expect(result.data.title).toBe(newPost.title);
       expect(result.data.content).toBe(newPost.content);
@@ -190,7 +190,7 @@ describe('blogApi', () => {
 
   describe('getBlogAuthor', () => {
     it('fetches the blog author successfully', async () => {
-      const blogId = "677bd2c12a17002edc3bfdcf";
+      const blogId = "677bd1591c7d8035a1fa6123";
       const result = await getSpecificBlogAuthor(blogId);
       expect(result.data).toHaveProperty('name');
     });

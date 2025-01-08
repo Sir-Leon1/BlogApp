@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ProfileButton({isMobileMenuOpen})  {
     const navigate = useNavigate();
+    const [username, setUsername] = useState("");
+
+useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+        setUsername(storedUsername);
+    }
+}, []);
 
     const handleClick = () => {
         navigate("/profile");
@@ -22,7 +30,8 @@ function ProfileButton({isMobileMenuOpen})  {
                             className="h-10 w-10 rounded-full object-cover"
                         />
                         <span className="text-sm font-medium">
-                                John Doe
+                                {username}
+
                             </span>
                     </div>
 

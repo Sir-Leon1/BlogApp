@@ -14,6 +14,7 @@ router.get('/blogs', getBlogs);
 router.get('/blogs/latest', getLatestBlogs);
 router.put('/blogs/:id', validateBlog, validateBlogUpdate, updateBlog);
 router.delete('/blogs/:id', deleteBlog);
+router.get('/blogs/featured', getFeaturedBlog);
 
 router.get('/blogs/:id', getSpecificBlog);
 router.get('/blogs/:id/author', getBlogAuthor);
@@ -21,6 +22,5 @@ router.get('/blogs/users/:user_id', getBlogsByUser);
 
 router.get('/blogs/tags', getBlogTags);
 router.get('/blogs/history/:id', getUserReadHistory);
-router.get('/blogs/featured/', getFeaturedBlog);
 
 module.exports = router;

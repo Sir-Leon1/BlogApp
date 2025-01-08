@@ -14,6 +14,18 @@ const blogSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  imageData: {
+    type: Buffer,
+    required: false
+  },
+  imageContentType: {
+    type: String,
+    required: false
+  },
+  imageUrl: {
+    type: String,
+    required: false
+  },
   category: {
     type: String,
     required: false
