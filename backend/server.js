@@ -8,6 +8,7 @@ const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes');
 const blogRoutes = require('./routes/blogRoutes');
 const tagRoutes = require('./routes/tagRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/b', blogRoutes);
 app.use('/api/t', tagRoutes);
+app.use('/api/u', userRoutes);
 
 
 app.use((req, res, next) => {

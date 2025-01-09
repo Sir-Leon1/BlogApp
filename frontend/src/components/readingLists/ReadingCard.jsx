@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ReadingCard = ({ title, description, image }) => {
+const ReadingCard = ({ title, content, image }) => {
     return (
         <div className="group cursor-pointer">
             <div className="relative overflow-hidden rounded-lg mb-4">
@@ -11,7 +11,7 @@ const ReadingCard = ({ title, description, image }) => {
                 />
             </div>
             <h3 className="text-xl font-semibold mb-2">{title}</h3>
-            <p className="text-gray-600">{description}</p>
+            <p className="text-gray-600">{content}</p>
         </div>
     );
 };

@@ -6,6 +6,7 @@ import ArticleCard from '../components/featuredpage/ArticleCard.jsx';
 import ArticleCard2 from "../components/featuredpage/ArticleCard2.jsx";
 import {getpopularTags, featuredPost, getlatestArticles} from '../services/blogApi';
 import {useNavigate} from "react-router-dom";
+import {addHistory} from "../services/userApi.js";
 
 const FeaturedPosts = () => {
   const [featured_Post, setFeaturedPost] = useState({});
@@ -108,7 +109,12 @@ const FeaturedPosts = () => {
     fetchLatestArticles();
   }, []);
 
-  function handleArticleClick(id) {
+
+  async function handleArticleClick(id) {
+    await addHistory({
+      userId: localStorage.getItem("userId"),
+      blogId: id
+    })
     navigate(`/article/${id}`);
   }
 

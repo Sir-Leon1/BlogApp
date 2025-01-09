@@ -30,7 +30,7 @@ const UserSchema = new mongoose.Schema({
   ],
   readHistory: [
     {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Blog'
     }
   ]

@@ -16,8 +16,14 @@ const register = async (req, res) => {
     await user.save();
     const accessToken = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
     const refreshToken = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' });
+    const userId = user._id;
+    const userIdStr = userId.toString();
 
-    res.status(200).json({ access_token: accessToken, refresh_token: refreshToken, user: { id: user._id, username: user.username } });
+    res.status(200).json({
+      access_token: accessToken,
+      refresh_token: refreshToken,
+      user: {id: userIdStr, username: user.username}
+    });
   } catch (err) {
     console.error('Error:', err.message);
     res.status(500).json({ error: 'An unexpected error occured' });
@@ -35,12 +41,22 @@ const login = async (req, res) => {
 
     const accessToken = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
     const refreshToken = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' });
-
+    const userId = user._id;
+    const userIdStr = userId.toString();
+    console.log(userIdStr);
+    console.log({
+      access_token: accessToken,
+      refresh_token: refreshToken,
+      user: {
+        id: userIdStr,
+        username: user.username
+      }
+    })
     res.status(200).json({
       access_token: accessToken,
       refresh_token: refreshToken,
       user: {
-        id: user._id,
+        id: userIdStr,
         username: user.username
       }
     });

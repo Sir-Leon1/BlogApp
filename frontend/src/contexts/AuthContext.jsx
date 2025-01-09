@@ -50,12 +50,17 @@ export const AuthProvider = ({ children }) => {
     if (response && (response.status === 200 || response.status === 201)) {
       const data = response.data;
       const { access_token, refresh_token } = data;  // Assuming the server returns a token and user info
+      const { id, username } = data.user;
 
       // Store token and user in state/localStorage
       setAccess(access_token);
       setRefresh(refresh_token);
+      setId(id);
+      setUsername(username);
       localStorage.setItem('access_token', access_token);// Store token
       localStorage.setItem('refresh_token', refresh_token);  // Store user info
+      localStorage.setItem('userId', id);
+      localStorage.setItem('username', username);
 
       return { status: 'success', data };
     } else {
@@ -69,6 +74,8 @@ export const AuthProvider = ({ children }) => {
     setRefresh(null);
     localStorage.removeItem('access_token');  // Clear token from localStorage
     localStorage.removeItem('refresh_token');   // Clear user data
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
 
     setLoading(false);
 

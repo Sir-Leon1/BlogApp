@@ -23,7 +23,7 @@ const Navbar = ({isloggedin, userDetails, onLogout}) => {
                         <div className="ml-8 hidden w-full sm:flex whitespace-nowrap space-x-4">
                             <a href="/" className="text-gray-600 hover:text-gray-900">Home</a>
                             <a href="#" className="text-gray-600 hover:text-gray-900">Popular</a>
-                            <a href="#" className="text-gray-600 hover:text-gray-900">New</a>
+                            <a href="/editor" className="text-gray-600 hover:text-gray-900">New</a>
                             <a href="/readinglists" className="text-gray-600 hover:text-gray-900">Reading list</a>
                             <a href="/topics" className="text-gray-600 hover:text-gray-900">Topics</a>
                         </div>

@@ -1,7 +1,7 @@
 const express = require('express');
 const {
   createBlog, getBlogs, getSpecificBlog, updateBlog, deleteBlog,
-  getLatestBlogs, getBlogsByUser, getBlogTags, getUserReadHistory,
+  getLatestBlogs, getBlogsByUser, getBlogTags,
   getFeaturedBlog, getBlogAuthor
 } = require('../controllers/blogControllers');
 const { authenticate } = require('../middlewares/auth');
@@ -21,6 +21,5 @@ router.get('/blogs/:id/author', getBlogAuthor);
 router.get('/blogs/users/:user_id', getBlogsByUser);
 
 router.get('/blogs/tags', getBlogTags);
-router.get('/blogs/history/:id', getUserReadHistory);
 
 module.exports = router;

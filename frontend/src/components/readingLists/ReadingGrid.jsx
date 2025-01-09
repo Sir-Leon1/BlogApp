@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ReadingCard from './ReadingCard';
 import {getreadingHistory} from '../../services/userApi';
 
@@ -21,19 +21,38 @@ const readingItems = [
 
 const ReadingGrid = () => {
     const [readingItems, setReadingItems] = useState([]);
+    const [userId, setUserId] = useState("No change");
 
-    const fetchReadingItems = async () => {
-        const response = await getreadingHistory();
-        setReadingItems(response.data);
-    }
-    fetchReadingItems().then(r => console.log(r));
+    useEffect( () => {
+        const id = localStorage.getItem("userId");
+        console.log(id);
+        if (id) {
+            console.log(id);
+            setUserId(id);
+            console.log(userId);
+        }
+    }, [])
+
+    useEffect (() => {
+        const fetchReadingItems = async () => {
+            console.log(userId);
+            const response = await getreadingHistory(userId);
+            setReadingItems(response.data);
+        }
+        fetchReadingItems();
+    }, [userId]);
+
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {readingItems.map(item => (
-                <ReadingCard key={item.id} {...item} />
-            ))}
-        </div>
+      <div>
+          {Array.isArray(readingItems) ? (
+            readingItems.map(item => (
+              <ReadingCard key={item.id} {...item} />
+            ))
+          ) : (
+            <p>No reading items found.</p>
+          )}
+      </div>
     );
 };
 

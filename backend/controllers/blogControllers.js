@@ -18,7 +18,9 @@ const createBlog = async (req, res) => {
     }
     console.log(req.file);
     console.log(req.body.data);
-    const {title, content} = JSON.parse(req.body.data);
+    const data = JSON.parse(req.body.data);
+    const {title, content} = data;
+    data.imageUrl ? image = data.imageUrl : image = null;
     const {authorId} = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(authorId)) {
@@ -30,14 +32,24 @@ const createBlog = async (req, res) => {
     }
 
     try {
-      req.file ? blog = new Blog({
+      if (req.file) {
+        blog = new Blog({
           title,
           content,
           authorId: new mongoose.Types.ObjectId(authorId),
           imageData: imageData,
           imageContentType: imageContentType
-        }) :
+        });
+      } else if (image) {
+        blog = new Blog({
+          title,
+          content,
+          authorId: new mongoose.Types.ObjectId(authorId),
+          imageUrl: image,
+        })
+      } else {
         blog = new Blog({title, content, authorId: new mongoose.Types.ObjectId(authorId)});
+      }
       await blog.save();
       console.log(blog);
       await blog.populate({
@@ -45,7 +57,7 @@ const createBlog = async (req, res) => {
         select: 'username',
         options: {strictPopulate: false}
       });
-      blog.imageData ? image = `data:${blog.imageContentType};base64,${blog.imageData.toString('base64')}` : image = null;
+      if (blog.imageData) { image = `data:${blog.imageContentType};base64,${blog.imageData.toString('base64')}`; }
       const data = {
         id: blog._id,
         title: blog.title,
@@ -212,6 +224,8 @@ const getLatestBlogs = async (req, res) => {
       let image = null;
       if (blog.imageData) {
         image = `data:${blog.imageContentType};base64,${blog.imageData.toString('base64')}`;
+      } else if (blog.imageUrl) {
+        image = blog.imageUrl;
       }
 
       return {
@@ -299,34 +313,6 @@ const getBlogTags = async (req, res) => {
   }
 };
 
-const getUserReadHistory = async (req, res) => {
-  /**
-   * Should return a json of blogs opened recently by a user,
-   *
-   * */
-  const {id} = req.params;
-  try {
-    const user = await User.findById(id).populate('readHistory');
-    if (!user) {
-      return res.status(404).json({error: 'User not found'});
-    }
-    //blog.imageData ? image = `data:${blog.imageContentType};base64,${blog.imageData.toString('base64')}` : image = null;
-    //TODO resolve blog image
-    const data = user.readHistory.map(blog => ({
-      id: blog._id,
-      title: blog.title,
-      content: blog.content,
-      image: `data:${blog.imageContentType};base64,${blog.imageData.toString('base64')}`,
-      authorId: blog.authorId,
-      author: blog.authorId.username,
-      category: blog.category,
-    }));
-    res.status(200).json(data);
-  } catch (err) {
-    console.error('Error:', err.message);
-    res.status(500).json({error: 'An unexpected error occurred'});
-  }
-}
 
 const getFeaturedBlog = async (req, res) => {
   /**
@@ -367,7 +353,6 @@ module.exports = {
   getLatestBlogs,
   getBlogsByUser,
   getBlogTags,
-  getUserReadHistory,
   getFeaturedBlog,
   getBlogAuthor
 };
