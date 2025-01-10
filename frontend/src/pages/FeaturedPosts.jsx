@@ -133,17 +133,20 @@ const FeaturedPosts = () => {
 
       <section className="my-8">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Popular</h2>
-          <a href="#" className="text-pink-500">View all</a>
+          <h2 className="text-xl font-bold text-white">Popular</h2>
+          <a href="#" className="text-pink-500 ">View all</a>
         </div>
         <div className="space-y-4">
-          {latestArticles.map((article, index) => (
-            index % 2 === 0 ? (
+          {latestArticles.map((article) => {
+            const useArticleCard = Math.random() < 0.5;
+
+
+            return useArticleCard ? (
               <ArticleCard
                 key={article.id}
                 title={article.title}
                 author={article.author}
-                authorid={article.authorid}
+                authorid={article.authorId._id}
                 category={article.category}
                 description={article.content}
                 image={article.image}
@@ -154,14 +157,15 @@ const FeaturedPosts = () => {
                 key={article.id}
                 title={article.title}
                 author={article.author}
-                authorid={article.authorid}
+                authorid={article.authorId._id}
                 category={article.category}
                 description={article.content}
                 image={article.image}
                 onClick={() => handleArticleClick(article.id)}
               />
-            )
-          ))}
+            );
+          })}
+
         </div>
       </section>
     </Layout>

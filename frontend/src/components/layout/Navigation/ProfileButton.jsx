@@ -20,7 +20,7 @@ function ProfileButton({isMobileMenuOpen}) {
       <div className="relative">
         <button
           onClick={handleClick}
-          className="px-4 py-2 border border-white rounded-md text-gray-700 hover:bg-gray-50
+          className="px-4 py-2 w-full border border-white rounded-l-full  hover:bg-gray-500
                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           <div className={`flex ${isMobileMenuOpen ? "py-2" : "flex-col"} items-center space-x-2 cursor-pointer`}>
@@ -29,7 +29,7 @@ function ProfileButton({isMobileMenuOpen}) {
               alt=""
               className="h-10 w-10 rounded-full object-cover"
             />
-            <span className="text-sm font-medium">
+            <span className="text-sm font-medium text-white">
                                 {username}
 
                             </span>

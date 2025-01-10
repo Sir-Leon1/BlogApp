@@ -4,7 +4,7 @@ const ReadingList = ({ categories }) => {
   return (
     <section className="my-8">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">Popular</h2>
+        <h2 className="text-xl font-bold text-white">Trending</h2>
         <a href="/popular" className="text-pink-500">View all</a>
       </div>
       <div className="grid grid-cols-5 gap-4">

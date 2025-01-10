@@ -1,7 +1,7 @@
 import React from 'react';
 import ArticleLinkWrapper from "../postPage/BlogLinkWrapper.jsx";
 
-const BlogPost = ({ image, category, title, author, articleid }) => {
+const BlogPost = ({ image, category, title, author, articleId }) => {
   return (
     <ArticleLinkWrapper articleId={articleId}>
     <article className="mb-12">

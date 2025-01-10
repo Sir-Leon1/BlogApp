@@ -127,10 +127,10 @@ describe('blogApi', () => {
 
   describe('getBlogsByUser', () => {
     it('fetches blogs by user ID successfully', async () => {
-      const userId = "675e6ae47bbe53863df4c03f";
+      const userId = "677e89150e282461711f94ec";
       const result = await getAuthorsBlogList(userId);
       expect(result.data).toBeInstanceOf(Array);
-      expect(result.data[0]).toHaveProperty('authorId', userId);
+      expect(result.data[0]).toHaveProperty('authorId._id', userId);
     });
 
     it('handles fetch blogs by user ID failure', async () => {
@@ -190,9 +190,11 @@ describe('blogApi', () => {
 
   describe('getBlogAuthor', () => {
     it('fetches the blog author successfully', async () => {
-      const blogId = "677bd1591c7d8035a1fa6123";
-      const result = await getSpecificBlogAuthor(blogId);
+      const authorId = "677e89150e282461711f94e6";
+      const result = await getSpecificBlogAuthor(authorId);
       expect(result.data).toHaveProperty('name');
+      expect(result.data).toHaveProperty('profile');
+      expect(result.data).toHaveProperty('social_links');
     });
 
     it('handles fetch blog author failure', async () => {

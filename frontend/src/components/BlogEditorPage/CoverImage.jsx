@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// src/components/CoverImage/CoverImage.js
+import React, { useState, useRef } from 'react';
 import { IconImage } from './icons';
 
 const Modal = ({ isOpen, onClose, onConfirm }) => {
@@ -33,26 +34,106 @@ const Modal = ({ isOpen, onClose, onConfirm }) => {
   );
 };
 
+const ImageUploadOptions = ({ onOptionSelect }) => (
+  <div className="flex flex-col sm:flex-row items-center gap-3 mt-2">
+    <button
+      onClick={() => onOptionSelect('file')}
+      className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+    >
+      Upload Image
+    </button>
+    <span className="text-gray-500 text-sm">or</span>
+    <button
+      onClick={() => onOptionSelect('url')}
+      className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+    >
+      Add Image URL
+    </button>
+  </div>
+);
+
 const CoverImage = ({ coverImage, onImageChange, onImageRemove }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const fileInputRef = React.useRef(null);
+  const [uploadType, setUploadType] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
+  const fileInputRef = useRef(null);
 
-  const handleImageClick = () => {
-    fileInputRef.current?.click();
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      onImageChange({ type: 'file', data: file });
+      setUploadType(null);
+    }
   };
+
+  const handleUrlSubmit = (e) => {
+    e.preventDefault();
+    if (imageUrl.trim()) {
+      onImageChange({ type: 'url', data: imageUrl.trim() });
+      setImageUrl('');
+      setUploadType(null);
+    }
+  };
+
+  const renderUploadInterface = () => {
+    if (uploadType === 'file') {
+      return (
+        <div className="text-center mt-2">
+          <input
+            ref={fileInputRef}
+            type="file"
+            className="hidden"
+            accept="image/*"
+            onChange={handleImageUpload}
+          />
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            Choose File
+          </button>
+        </div>
+      );
+    }
+
+    if (uploadType === 'url') {
+      return (
+        <form onSubmit={handleUrlSubmit} className="mt-2 flex flex-col sm:flex-row gap-2">
+          <input
+            type="url"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+            placeholder="Enter image URL"
+            className="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="submit"
+            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Add Image
+          </button>
+        </form>
+      );
+    }
+
+    return null;
+  };
+
+  const imageSource = coverImage?.type === 'url' ? coverImage.data :
+    coverImage?.type === 'file' ? URL.createObjectURL(coverImage.data) : null;
 
   return (
     <div className="relative h-[200px] sm:h-[250px] md:h-[300px] bg-gray-100 rounded-t-lg overflow-hidden group">
-      {coverImage ? (
+      {imageSource ? (
         <>
           <img
-            src={URL.createObjectURL(coverImage)}
+            src={imageSource}
             alt="Cover"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 p-4">
             <button
-              onClick={handleImageClick}
+              onClick={() => setUploadType('file')}
               className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-white bg-gray-600 rounded-lg hover:bg-gray-700 transition-colors"
             >
               Change Image
@@ -68,21 +149,21 @@ const CoverImage = ({ coverImage, onImageChange, onImageRemove }) => {
       ) : (
         <div className="flex flex-col items-center justify-center h-full p-4">
           <IconImage />
-          <button
-            onClick={handleImageClick}
-            className="mt-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-          >
-            Add Cover Image
-          </button>
+          {!uploadType ? (
+            <ImageUploadOptions onOptionSelect={setUploadType} />
+          ) : (
+            <>
+              {renderUploadInterface()}
+              <button
+                onClick={() => setUploadType(null)}
+                className="mt-2 text-sm text-gray-500 hover:text-gray-700"
+              >
+                Cancel
+              </button>
+            </>
+          )}
         </div>
       )}
-      <input
-        ref={fileInputRef}
-        type="file"
-        className="hidden"
-        accept="image/*"
-        onChange={onImageChange}
-      />
 
       <Modal
         isOpen={isModalOpen}

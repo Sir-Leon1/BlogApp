@@ -47,7 +47,11 @@ export const getAuthorsBlogList = async (user_id) => {
 export const createBlog = async ( data, authorId ) => {
     try {
         const response = await apiClient.post(`/b/blogs/${authorId}`,
-            { data }
+          data, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+          }
         )
         return response;
     } catch (error) {

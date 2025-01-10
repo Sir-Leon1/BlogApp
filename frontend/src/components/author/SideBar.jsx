@@ -67,6 +67,13 @@ const Calendar = () => {
 
 
 const Sidebar = ({posts, socialLinks}) => {
+  const iconsMap = {
+    githublink: Github,
+    twitterlink: Twitter,
+    facebooklink: Facebook,
+    linkedinlink: Linkedin,
+    profilelink: Link,
+  };
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearchChange = (e) => {
@@ -77,6 +84,23 @@ const Sidebar = ({posts, socialLinks}) => {
   );
   const topPosts = posts.slice(0, 3);
   const searchPosts = filteredPosts.slice(0, 4);
+
+  const getIcon = (platform) => {
+    switch (platform.toLowerCase()) {
+      case 'github':
+        return <Github size={20} />;
+      case 'twitter':
+        return <Twitter size={20} />;
+      case 'facebook':
+        return <Facebook size={20} />;
+      case 'linkedin':
+        return <Linkedin size={20} />;
+      case 'link':
+        return <Link size={20} />;
+      default:
+        return <Link size={20} />;
+    }
+  };
 
   return (
     <div className="lg:w-80">
@@ -131,22 +155,11 @@ const Sidebar = ({posts, socialLinks}) => {
       <div className="mb-8">
         <h2 className="font-bold mb-4">SOCIAL MEDIA</h2>
         <div className="flex space-x-4">
-          <a href={socialLinks.githublink} className="text-gray-400 hover:text-gray-600">
-            <Github size={20}/>
-          </a>
-          <a href={socialLinks.twitterlink} className="text-gray-400 hover:text-gray-600">
-            <Twitter size={20}/>
-          </a>
-          <a href={socialLinks.facebooklink} className="text-gray-400 hover:text-gray-600">
-            <Facebook size={20}/>
-          </a>
-          <a href={socialLinks.linkedinlink} className="text-gray-400 hover:text-gray-600">
-            <Linkedin size={20}/>
-          </a>
-          <a href={socialLinks.profilelink} className="text-gray-400 hover:text-gray-600">
-            <Link size={20}/>
-          </a>
-            {/* More social media icons */}
+          { socialLinks.map((link, index) => (
+            <a key={index} href={link.url} className="text-gray-400 hover:text-gray-600">
+              {getIcon(link.platform)}
+            </a>
+          ))}
         </div>
       </div>
     </div>
