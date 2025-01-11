@@ -7,9 +7,11 @@ import Newsletter from '../components/author/NewsLetter';
 import Layout from "../components/layout/Layout.jsx";
 import {getSpecificBlogAuthor, getAuthorsBlogList} from '../services/blogApi';
 import {useNavigate, useParams} from "react-router-dom";
+import LoadingSpinner from "../components/universal/LoadingSpinner/loadingSpinner.jsx";
 
 const BlogDetailPage = () => {
   const { authorid } = useParams();
+  const [loading, setLoading] = useState(false)
   console.log(authorid);
 
   const [postAuthor, setPostAuthor] = useState(null);
@@ -19,7 +21,9 @@ const BlogDetailPage = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
+      setLoading(true);
       const response = await getAuthorsBlogList(authorid);
+      setLoading(false);
       console.log(response.data);
       setPosts(response.data);
     }
@@ -29,7 +33,9 @@ const BlogDetailPage = () => {
   useEffect(() => {
     console.log('Fetching post author');
     const fetchPostAuthor = async () => {
+      setLoading(true);
       const response = await getSpecificBlogAuthor(authorid);
+      setLoading(false);
       if (response.error) {
         navigate('/404');
         return;
@@ -66,6 +72,7 @@ const BlogDetailPage = () => {
         </div>
         <Newsletter />
       </div>
+      {loading && <LoadingSpinner/>}
     </Layout>
   );
 };

@@ -7,9 +7,17 @@ import ContentEditor from '../components/BlogEditorPage/ContentEditor.jsx';
 import Layout from "../components/layout/Layout.jsx";
 import CategorySelector from '../components/BlogEditorPage/CategorySelector.jsx';
 import {createBlog} from "../services/blogApi.js";
-import MarkdownBlogEditor from "../components/BlogEditorPage/MarkdownBlogEditor.jsx";
+//import MarkdownEditor from "../components/BlogEditorPage/MarkdownEditor.js.jsx";
+import BlogPreview from "../components/BlogEditorPage/BlogPreview.jsx";
+import MdEditor from "react-markdown-editor-lite";
+import MarkdownIt from "markdown-it";
+import "react-markdown-editor-lite/lib/index.css";
+
+const mdParser = new MarkdownIt();
 
 const BlogEditor = () => {
+  const [content, setContent] = useState("");
+
   const [post, setPost] = useState({
     title: '',
     content: '',
@@ -18,6 +26,14 @@ const BlogEditor = () => {
     category: '',
     isPreview: false
   });
+
+  const handleEditorChange = (text) => {
+    setPost(prev => ({
+      ...prev,
+      content: text.text
+    }));
+    setContent(text.text);
+  };
 
   const handleImageChange = (imageData) => {
     setPost(prev => ({
@@ -83,7 +99,7 @@ const BlogEditor = () => {
           onPublish={() => handleCreateBlog()}
         />
 
-        <main className="max-w-5xl mx-auto px-4 py-4 sm:py-6 md:py-8">
+        <main className="sm:w-auto w-full mx-auto  py-4 sm:py-6 md:py-8">
           <div className="bg-white rounded-lg shadow-sm">
             <CoverImage
               coverImage={post.coverImage}
@@ -118,14 +134,28 @@ const BlogEditor = () => {
                   onTagRemove={handleTagRemove}
                 />
 
-                <MarkdownBlogEditor
-                  initialContent={post.content}
-                  onContentChange={(newContent) => setPost(prev => ({
-                    ...prev,
-                    content: newContent
-                  }))
-                  }
-                />
+                <div>
+
+                  <div className=" mx-auto space-y-6">
+                    <div className="flex justify-between items-center">
+
+                      {/**Todo link to the publish button and the onSave event handling*/}
+                    </div>
+
+                    <div className="w-full border border-gray-200 rounded-lg overflow-hidden shadow-lg">
+                      <MdEditor
+                        value={content}
+                        style={{height: "700px"}}
+                        renderHTML={(text) => mdParser.render(text)}
+                        onChange={handleEditorChange}
+                      />
+                    </div>
+
+
+                  </div>
+                  {/**<h2>Preview</h2>
+                  <BlogPreview markdownContent={post.content}/>*/}
+                </div>
               </div>
             </div>
           </div>
