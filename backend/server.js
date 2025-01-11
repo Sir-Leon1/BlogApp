@@ -8,6 +8,7 @@ const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes');
 const blogRoutes = require('./routes/blogRoutes');
 const tagRoutes = require('./routes/tagRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/b', blogRoutes);
 app.use('/api/t', tagRoutes);
+app.use('/api/u', userRoutes);
 
 
 app.use((req, res, next) => {
@@ -41,6 +43,6 @@ app.use((err, req, res, next) => {
 
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });

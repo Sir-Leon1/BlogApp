@@ -1,34 +1,40 @@
 const Tag = require('../models/Tag');
 const multer = require('multer');
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const upload = multer({storage: storage});
 
 const uploadTagImage = async (req, res) => {
   upload.single('image')(req, res, async (err) => {
+    let tag;
     if (err) {
-      return res.status(400).json({ error: 'Image upload failed' });
+      return res.status(400).json({error: 'Image upload failed:' + err.message});
     }
-    const { name } = req.body;
     const imageData = req.file.buffer;
     const imageContentType = req.file.mimetype;
+    const {name} = req.body;
+    const {imageUrl} = req.body;
+    console.log(req.file);
 
     try {
-      const tag = new Tag({ name, imageData, imageContentType });
+
+      req.file ? tag = new Tag({name, imageData, imageContentType}) :
+        tag = new Tag({name, imageUrl});
       await tag.save();
       res.status(201).json(tag);
     } catch (err) {
       console.error('Error:', err.message);
-      res.status(500).json({ error: 'An unexpected error occurred' });
+      res.status(500).json({error: 'An unexpected error occurred'});
     }
+
   });
 };
 
 const getTagById = async (req, res) => {
-  const { id } = req.params;
+  const {id} = req.params;
   try {
     const tag = await Tag.findById(id);
     if (!tag) {
-      return res.status(404).json({ error: 'Tag not found' });
+      return res.status(404).json({error: 'Tag not found'});
     }
     res.status(200).json({
       id: tag._id,
@@ -37,7 +43,7 @@ const getTagById = async (req, res) => {
     });
   } catch (err) {
     console.error('Error:', err.message);
-    res.status(500).json({ error: 'An unexpected error occurred' });
+    res.status(500).json({error: 'An unexpected error occurred'});
   }
 };
 
@@ -47,12 +53,12 @@ const getAllTags = async (req, res) => {
     res.status(200).json(tags.map(tag => ({
       id: tag._id,
       name: tag.name,
-      image: `data:${tag.imageContentType};base64,${tag.imageData.toString('base64')}`
+      image: `data:${tag.imageContentType};base64,${tag.imageData.toString('base64')}`,
     })));
   } catch (err) {
     console.error('Error:', err.message);
-    res.status(500).json({ error: 'An unexpected error occurred' });
+    res.status(500).json({error: 'An unexpected error occurred'});
   }
 };
 
-module.exports = { uploadTagImage, getTagById, getAllTags };
+module.exports = {uploadTagImage, getTagById, getAllTags};

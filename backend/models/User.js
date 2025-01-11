@@ -28,6 +28,12 @@ const UserSchema = new mongoose.Schema({
       url: { type: String, required: true }
     }
   ],
+  readHistory: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Blog'
+    }
+  ]
 }, { timestamps: true });
 
 UserSchema.pre('save', async function (next) {

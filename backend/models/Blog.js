@@ -14,6 +14,18 @@ const blogSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  imageData: {
+    type: Buffer,
+    required: false
+  },
+  imageContentType: {
+    type: String,
+    required: false
+  },
+  imageUrl: {
+    type: String,
+    required: false
+  },
   category: {
     type: String,
     required: false
@@ -36,6 +48,10 @@ const blogSchema = new mongoose.Schema({
     }]
   }],
   likes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  views: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],

@@ -2,7 +2,7 @@ import apiClient from "./api.js";
 
 export const user = async (id) => {
     try {
-        const response = await apiClient.get(`/users/:${id}`,
+        const response = await apiClient.get(`/u/users/:${id}`,
             );
         return response;
     } catch (error) {
@@ -13,7 +13,7 @@ export const user = async (id) => {
 
 export const profileUpdate = async ( data ) => {
     try {
-        const response = await apiClient.put(`/users/profile/:${data.id}`,
+        const response = await apiClient.put(`/u/users/profile/:${data.id}`,
             { data }
             );
         return response;
@@ -25,7 +25,19 @@ export const profileUpdate = async ( data ) => {
 
 export const getreadingHistory = async (id) => {
     try {
-        const response = await apiClient.get(`/users/history/${id}`);
+        const response = await apiClient.get(`/u/users/history/${id}`);
+        return response;
+    } catch (error) {
+        console.error(error);
+        return error.response;
+    }
+}
+
+export const addHistory = async (data) => {
+    try {
+        const response = await apiClient.post('/u/users/history',
+            { data }
+        )
         return response;
     } catch (error) {
         console.error(error);
@@ -35,7 +47,7 @@ export const getreadingHistory = async (id) => {
 
 export const deleteHistory = async (id) => {
     try {
-        const response = await apiClient.delete(`/users/history/${id}`);
+        const response = await apiClient.delete(`/u/users/history/${id}`);
         return response;
     } catch (error) {
         console.error(error);
@@ -45,7 +57,7 @@ export const deleteHistory = async (id) => {
 
 export const deleteAccount = async (id) => {
     try {
-        const response = await apiClient.delete(`/users/:${id}`);
+        const response = await apiClient.delete(`/u/users/:${id}`);
         return response;
     } catch (error) {
         console.error(error);

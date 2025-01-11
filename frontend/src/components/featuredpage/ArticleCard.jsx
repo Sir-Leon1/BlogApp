@@ -9,14 +9,14 @@ const ArticleCard = ({ title, author, authorid, category, description, image, on
     navigate(`/author/${authorid}`);
   }
   return (
-    <div className="flex flex-col md:flex-row gap-4 p-4 rounded-lg hover:bg-gray-50" onClick={onClick}>
+    <div className="flex flex-col border border-gray-500 md:flex-row gap-4 p-4 rounded-lg hover:bg-gray-500 text-white" onClick={onClick}>
       <div className="flex-1">
         <div className="mb-2">
           <span className="text-sm text-gray-600 uppercase">{category}</span>
         </div>
         <h3 className="text-xl font-bold mb-2">{title}</h3>
         <p className="text-gray-600 mb-2">{description}</p>
-        <div className="text-sm text-gray-500" onClick={handleAuthorClick}>
+        <div className="text-sm text-white" onClick={handleAuthorClick}>
           By {author}
         </div>
       </div>

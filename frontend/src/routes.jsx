@@ -9,6 +9,7 @@ import Author from "./pages/Author.jsx";
 import BlogPost from "./pages/BlogPost.jsx";
 import AllReadingLists from "./pages/AllReadingLists.jsx";
 import UserProfile from "./pages/UserProfile.jsx";
+import BlogEditor from "./pages/BlogEditor.jsx";
 
 
 function AppRoutes() {
@@ -26,6 +27,7 @@ function AppRoutes() {
           <Route path="/topics/:topicId/:postId" element={<TopicsPage/>}/>
           <Route path="/author" element={<Author/>}/>
           <Route path="/author/:authorid" element={<Author/>}/>
+          <Route path="/editor" element={<BlogEditor/>}/>
           <Route path="/article/:articleid" element={<BlogPost/>}/>
           <Route path="/profile" element={<UserProfile/>}/>
 
