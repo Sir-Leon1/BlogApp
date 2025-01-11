@@ -27,8 +27,8 @@ const AuthorProfile = ({image, name, bio, socialLinks}) => {
         alt={name}
         className="w-24 h-24 rounded-full mx-auto mb-4"
       />
-      <h1 className="text-xl font-bold mb-2">{name}</h1>
-      <p className="text-gray-600 mb-4">{bio}</p>
+      <h1 className="text-xl text-white font-bold mb-2">{name}</h1>
+      <p className="text-gray-50 mb-4">{bio}</p>
       <div className="flex justify-center space-x-3">
         { socialLinks.map((link, index) => (
           <a key={index} href={link.url} className="text-gray-400 hover:text-gray-600">

@@ -54,8 +54,10 @@ const BlogEditor = () => {
     formData.append('title', post.title);
     formData.append('content', post.content);
     formData.append('tags', JSON.stringify(post.tags));
+    formData.append('category', post.category);
     if (post.coverImage) {
-      formData.append('coverImage', post.coverImage);
+      post.coverImage.url ? formData.append('imageUrl', post.coverImage.url) :
+      formData.append('coverImage', post.coverImage.data);
     }
 
     try {

@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Pagination = () => {
   return (
-    <div className="flex justify-center items-center space-x-2 my-8">
+    <div className="flex justify-center text-white items-center space-x-2 my-8">
       <button className="p-2 rounded hover:bg-gray-100">
         <ChevronLeft size={20} />
       </button>

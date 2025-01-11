@@ -20,7 +20,7 @@ const createBlog = async (req, res) => {
     }
     console.log(req.file);
     console.log(req.body);
-    const { title, content, imageUrl } = req.body;
+    const { title, content, imageUrl, category } = req.body;
     imageUrl ? image = imageUrl : image = null;
     const {authorId} = req.params;
 
@@ -37,6 +37,7 @@ const createBlog = async (req, res) => {
         blog = new Blog({
           title,
           content,
+          category,
           authorId: new mongoose.Types.ObjectId(authorId),
           imageData: imageData,
           imageContentType: imageContentType
@@ -45,6 +46,7 @@ const createBlog = async (req, res) => {
         blog = new Blog({
           title,
           content,
+          category,
           authorId: new mongoose.Types.ObjectId(authorId),
           imageUrl: image,
         })
@@ -90,7 +92,7 @@ const getBlogs = async (req, res) => {
 const getSpecificBlog = async (req, res) => {
   let image;
   const {id} = req.params;
-  console.log("getSpecificBlog()");
+  console.log("getSpecificBlog");
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({error: 'Invalid blog ID'});
@@ -100,6 +102,8 @@ const getSpecificBlog = async (req, res) => {
     if (!blog) {
       return res.status(404).json({error: 'Blog not found'});
     }
+    const likeCount = blog.likes ? blog.likes.length : 0;
+    const viewCount = blog.views ? blog.views.length : 0;
     blog.imageData ? image = `data:${blog.imageContentType};base64,${blog.imageData.toString('base64')}` : image = null;
 
     const data = {
@@ -110,6 +114,9 @@ const getSpecificBlog = async (req, res) => {
       authorId: blog.authorId,
       author: blog.authorId.username,
       category: blog.category,
+      likes: likeCount,
+      views: viewCount,
+      comments: blog.comments,
     };
     console.log(data);
     res.status(200).json(data);

@@ -3,7 +3,7 @@ import React from 'react';
 const Newsletter = () => {
   return (
     <div className="text-center py-16">
-      <h2 className="text-2xl font-bold mb-2">Get free web design insights...</h2>
+      <h2 className="text-2xl text-white font-bold mb-2">Get free web design insights...</h2>
       <p className="text-gray-600 mb-4">
         In your inbox, every other week. And unsubscribe in a click, if you want.
       </p>

@@ -16,7 +16,6 @@ const getUserReadHistory = async (req, res) => {
     if (!user) {
       return res.status(404).json({error: 'User not found'});
     }
-    //TODO resolve blog image
     const data = user.readHistory.map(blog => {
       let image = null;
       if (blog.imageData) {

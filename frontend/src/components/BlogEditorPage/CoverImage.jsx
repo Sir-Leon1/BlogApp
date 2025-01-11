@@ -69,7 +69,7 @@ const CoverImage = ({ coverImage, onImageChange, onImageRemove }) => {
   const handleUrlSubmit = (e) => {
     e.preventDefault();
     if (imageUrl.trim()) {
-      onImageChange({ type: 'url', data: imageUrl.trim() });
+      onImageChange({ type: 'url', data: imageUrl.trim(), url: imageUrl });
       setImageUrl('');
       setUploadType(null);
     }

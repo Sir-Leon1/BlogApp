@@ -19,11 +19,11 @@ const Navbar = ({isloggedin, userDetails, onLogout}) => {
                     <div className="sm:flex-col flex items-center">
                     <img
                       src="/pngwing.com%20(1).png"
-                      alt="Webterm" className="h-20 w-auto"/>
+                      alt="Webterm" className="h-10 w-10"/>
                     <h1 className="text-small font-bold text-white">Threaded</h1>
                     <h1 className="text-small font-bold text-white">Stories</h1>
                     </div>
-                    <div className="flex md:flex-col flex-row items-center pt-9">
+                    <div className="flex md:flex-col flex-row items-center ">
                         <div className="flex items-center">
                             <div className="ml-8 hidden w-full sm:flex whitespace-nowrap space-x-4 text-white">
                                 <a href="/" className=" hover:text-purple-500 text-white">Home</a>
@@ -88,7 +88,7 @@ const Navbar = ({isloggedin, userDetails, onLogout}) => {
                       <a href="/editor" className="block px-3 py-2  hover:text-purple-500 text-white">New</a>
                       <a href="/readinglists" className="block px-3 py-2  hover:text-purple-500 text-white">Reading
                           list</a>
-                      <a href="/topics" className="block px-3 py-2 text-gray-600 hover:text-gray-900">Topics</a>
+                      <a href="/topics" className="block px-3 py-2  hover:text-purple-500 text-white">Topics</a>
                       {isloggedin ? (
                         <ProfileButton isMobileMenuOpen={isMobileMenuOpen}/>
                       ) : (

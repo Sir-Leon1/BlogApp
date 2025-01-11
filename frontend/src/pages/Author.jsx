@@ -41,6 +41,7 @@ const BlogDetailPage = () => {
 
   console.log(postAuthor);
   console.log(posts);
+  //TODO : The profile pic retreival will change once the profile manager is implemented
 
 
   return (

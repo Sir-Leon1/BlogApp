@@ -1,17 +1,20 @@
 import React, {useState} from 'react';
 import {Facebook, Github, Link, Linkedin, Twitter} from 'lucide-react';
+import ArticleLinkWrapper from "../postPage/BlogLinkWrapper.jsx";
 
-const PopularPost = ({ image, category, title }) => {
+const PopularPost = ({ image, category, title, articleId }) => {
   return (
+    <ArticleLinkWrapper articleId={articleId}>
     <div className="flex items-start space-x-4 mb-4">
       <img src={image} alt={title} className="w-16 h-16 rounded object-cover" />
       <div>
-        <span className="text-gray-500 text-xs uppercase">{category}</span>
-        <h3 className="text-sm font-medium hover:text-pink-500">
+        <span className="text-gray-50 text-xs uppercase">{category}</span>
+        <h3 className="text-sm font-medium text-white hover:text-pink-500">
           <a href="#">{title}</a>
         </h3>
       </div>
     </div>
+    </ArticleLinkWrapper>
   );
 };
 
@@ -115,19 +118,20 @@ const Sidebar = ({posts, socialLinks}) => {
       </div>
 
       <div className="mb-8">
-        <h2 className="font-bold mb-4">Search Results</h2>
+        <h2 className="font-bold text-white mb-4">Search Results</h2>
         {searchPosts.map((post, index) => (
           <PopularPost
             key={index}
             image={post.image}
             category={post.category}
             title={post.title}
+            articleId={post.id}
           />
         ))}
       </div>
 
       <div className="mb-8">
-        <h2 className="font-bold mb-4">POPULAR POSTS</h2>
+        <h2 className="font-bold text-white mb-4">POPULAR POSTS</h2>
         {topPosts.map((post, index) => (
           <PopularPost
             key={index}
@@ -139,7 +143,7 @@ const Sidebar = ({posts, socialLinks}) => {
       </div>
 
       <div className="mb-8">
-        <h2 className="font-bold mb-4">SUBSCRIBE</h2>
+        <h2 className="font-bold text-white mb-4">SUBSCRIBE</h2>
         <input
           type="email"
           placeholder="Your email"
@@ -153,7 +157,7 @@ const Sidebar = ({posts, socialLinks}) => {
       <Calendar/>
 
       <div className="mb-8">
-        <h2 className="font-bold mb-4">SOCIAL MEDIA</h2>
+        <h2 className="font-bold text-white mb-4">SOCIAL MEDIA</h2>
         <div className="flex space-x-4">
           { socialLinks.map((link, index) => (
             <a key={index} href={link.url} className="text-gray-400 hover:text-gray-600">

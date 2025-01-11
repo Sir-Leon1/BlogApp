@@ -12,14 +12,14 @@ const Footer = ({isloggedin}) => {
       {isloggedin ? (
         <div/>
       ) : (<AuthForm  />)}
-      <div id={"companylogo"} className="container mx-auto  px-4 flex justify-between items-center">
-        <div className="flex-col flex text-white items-center mr-20">
+      <div id={"companylogo"} className="container mx-auto px-4 flex justify-between items-center">
+        <div className="flex-col flex text-white w-80 items-center">
         <img
           src="/pngwing.com%20(1).png"
           alt="Webterm" className="h-10 width-100%"/>
           Threaded Stories
         </div>
-        <div id={"company-socials"} className="hidden sm:flex space-x-4 ml-30 items-center">
+        <div id={"company-socials"} className="hidden sm:flex justify-center space-x-4 w-80 ml-30 items-center">
           <a href="https://facebook.com" className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
             <Facebook size={20} />
           </a>
@@ -37,7 +37,10 @@ const Footer = ({isloggedin}) => {
             <Github size={20} />
           </a>
         </div>
-        <p id={"companyCopyright"} className="text-sm justify-end text-gray-500">© All Rights Reserved 2024</p>
+        <div id={"copyright"} className={" flex justify-end w-80"}>
+          <p  className="text-sm text-gray-500">© All Rights Reserved 2024</p>
+        </div>
+
       </div>
 
 
