@@ -14,7 +14,7 @@ const Layout = ({children}) => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-gray-950 overflow-clip">
       <Navbar isloggedin={isloggedin} onLogout={logout}/>
       <main className="container mx-auto px-4 py-8">
         {children}

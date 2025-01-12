@@ -32,16 +32,20 @@ const CommentForm = () => {
   );
 };
 
-const Comments = () => {
+const Comments = ({ comments }) => {
+
   return (
     <section className="max-w-3xl mx-auto px-4 py-8">
       <h2 className="text-xl font-bold mb-6">Comments</h2>
-      <CommentItem
-        avatar="https://images.unsplash.com/photo-1532372320572-cda25653a26d?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGRlc2lnbnxlbnwwfHwwfHx8MA%3D%3D"
-        author="Brian Johnson"
-        date="April 5, 2019 at 9:53 am"
-        content="I think, you might have just saved me a great deal of time"
-      />
+      { comments.map((comment) => (
+          <CommentItem
+            avatar="https://images.unsplash.com/photo-1532372320572-cda25653a26d?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGRlc2lnbnxlbnwwfHwwfHx8MA%3D%3D"
+            author={comment.authorId.username}
+            date="April 5, 2019 at 9:53 am"
+            content={comment.content}
+          />
+        ))}
+
       {/* More comments */}
       <CommentForm />
     </section>

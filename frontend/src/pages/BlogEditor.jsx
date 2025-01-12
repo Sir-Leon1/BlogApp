@@ -8,7 +8,7 @@ import Layout from "../components/layout/Layout.jsx";
 import CategorySelector from '../components/BlogEditorPage/CategorySelector.jsx';
 import {createBlog} from "../services/blogApi.js";
 //import MarkdownEditor from "../components/BlogEditorPage/MarkdownEditor.js.jsx";
-import BlogPreview from "../components/BlogEditorPage/BlogPreview.jsx";
+//import BlogContentRender from "../components/BlogEditorPage/BlogContentRender.jsx";
 import MdEditor from "react-markdown-editor-lite";
 import MarkdownIt from "markdown-it";
 import "react-markdown-editor-lite/lib/index.css";
@@ -154,7 +154,7 @@ const BlogEditor = () => {
 
                   </div>
                   {/**<h2>Preview</h2>
-                  <BlogPreview markdownContent={post.content}/>*/}
+                  <BlogContentRender markdownContent={post.content}/>*/}
                 </div>
               </div>
             </div>
