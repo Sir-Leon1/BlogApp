@@ -63,13 +63,13 @@ const BlogPostPage = () => {
                 likes={data.likes}
                 image={data.image}
               />
-              <SocialShare/>
+              {/*<SocialShare/>*/}
 
               <BlogContentRender markdownContent={data.content}/>
-              <SocialShareSmll/>
+              {/*<SocialShareSmll/>*/}
               <AuthorBio username={data.authorId.username} authorId={data.authorId._id}/>
-              <RelatedPosts/>
-              <Comments comments={data.comments}/>
+              {/*<RelatedPosts/>
+              <Comments comments={data.comments} blogId={articleid}/>*/}
             </motion.div>
         </div>
         )}

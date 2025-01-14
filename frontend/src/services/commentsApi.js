@@ -10,9 +10,9 @@ export const commentList = async (blog_id) => {
     }
 }
 
-export const createComment = async (data) => {
+export const createComment = async (data, authorId) => {
     try {
-        const response = await apiClient.post('/comments',
+        const response = await apiClient.post(`c/comments/${authorId}`,
             { data }
         )
         return response;

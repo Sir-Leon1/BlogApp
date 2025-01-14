@@ -12,9 +12,9 @@ export const ProfileProvider = ({ children }) => {
         website: "https://johndoe.dev",
         joinDate: "January 2024",
         socialLinks: {
-            twitter: "johndoe",
-            github: "johndoe",
-            linkedin: "johndoe",
+            twitter: "https://twitter.com/?mx=1",
+            github: "https://github.com/",
+            linkedin: "https://www.linkedin.com/",
             medium: "johndoe"
         },
         categories: ["Web Development", "UI/UX", "React", "JavaScript"],
