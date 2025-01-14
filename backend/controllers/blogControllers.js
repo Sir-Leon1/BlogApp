@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
+const moment = require("moment");
 
 const createBlog = async (req, res) => {
   console.log("createBlog")
@@ -20,7 +21,7 @@ const createBlog = async (req, res) => {
     }
     console.log(req.file);
     console.log(req.body);
-    const { title, content, imageUrl, category } = req.body;
+    const {title, content, imageUrl, category} = req.body;
     imageUrl ? image = imageUrl : image = null;
     const {authorId} = req.params;
 
@@ -60,7 +61,9 @@ const createBlog = async (req, res) => {
         select: 'username',
         options: {strictPopulate: false}
       });
-      if (blog.imageData) { image = `data:${blog.imageContentType};base64,${blog.imageData.toString('base64')}`; }
+      if (blog.imageData) {
+        image = `data:${blog.imageContentType};base64,${blog.imageData.toString('base64')}`;
+      }
       const data = {
         id: blog._id,
         title: blog.title,
@@ -98,7 +101,16 @@ const getSpecificBlog = async (req, res) => {
       return res.status(400).json({error: 'Invalid blog ID'});
     }
     const blogId = new mongoose.Types.ObjectId(id);
-    const blog = await Blog.findById(blogId).populate('authorId', 'username');
+    const blog = await Blog.findById(blogId).populate(
+      {
+        path: 'authorId', select: 'username'
+      },
+    );
+    await blog.populate({
+      path: 'comments.authorId',
+      select: 'username',
+      options: {strictPopulate: false}
+    })
     if (!blog) {
       return res.status(404).json({error: 'Blog not found'});
     }
@@ -106,6 +118,11 @@ const getSpecificBlog = async (req, res) => {
     const viewCount = blog.views ? blog.views.length : 0;
     blog.imageData ? image = `data:${blog.imageContentType};base64,${blog.imageData.toString('base64')}` : image = null;
 
+    const comments = blog.comments;
+    comments.map(comment => {
+      let timestamp = comment.createdAt;
+      comment.createdAt = moment(timestamp).format("MMMM D, YYYY [at] h:mm a");
+    })
     const data = {
       id: blog._id,
       title: blog.title,
@@ -116,7 +133,7 @@ const getSpecificBlog = async (req, res) => {
       category: blog.category,
       likes: likeCount,
       views: viewCount,
-      comments: blog.comments,
+      comments: comments,
     };
     console.log(data);
     res.status(200).json(data);
@@ -174,7 +191,7 @@ const deleteBlog = async (req, res) => {
       return res.status(404).json({error: 'Blog not found'});
     }
     await blog.deleteOne({_id: blogId});
-    data = {message: 'Blog deleted successfully'};
+    const data = {message: 'Blog deleted successfully'};
     res.status(200).json(data);
   } catch (err) {
     console.error('Error:', err.message);

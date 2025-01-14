@@ -2,3 +2,13 @@
     border: 1px solid #ddd;
     border-radius: 5px;
 }
+
+/* Hide scrollbars but allow scrolling */
+.md-editor .md-editor-container textarea {
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+.md-editor .md-editor-container textarea::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+}

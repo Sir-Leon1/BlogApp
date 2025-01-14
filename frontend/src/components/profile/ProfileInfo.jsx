@@ -1,11 +1,13 @@
 import React from 'react';
 import { useProfile } from './ProfileContext';
+import ProfileSocial from "./ProfileSocial.jsx";
 
 const ProfileInfo = () => {
   const { profile } = useProfile();
 
   return (
     <div className="space-y-4">
+      <ProfileSocial/>
       <div>
         <h1 className="text-2xl font-bold">{profile.fullName}</h1>
         <p className="text-gray-500">@{profile.username}</p>

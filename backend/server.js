@@ -9,6 +9,7 @@ const authRoutes = require('./routes/authRoutes');
 const blogRoutes = require('./routes/blogRoutes');
 const tagRoutes = require('./routes/tagRoutes');
 const userRoutes = require('./routes/userRoutes');
+const commentRoutes = require('./routes/commentRoutes');
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/b', blogRoutes);
 app.use('/api/t', tagRoutes);
 app.use('/api/u', userRoutes);
+app.use('/api/c', commentRoutes);
 
 
 app.use((req, res, next) => {

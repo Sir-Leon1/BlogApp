@@ -42,12 +42,12 @@ const getUserReadHistory = async (req, res) => {
 }
 
 const addViewedBlog = async (req, res) => {
-  const { userId, blogId } = req.body.data;
+  const {userId, blogId} = req.body.data;
   try {
 
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(400).json({error: 'Invalid blog ID'});
-    } else if ( !mongoose.Types.ObjectId.isValid(blogId) ){
+    } else if (!mongoose.Types.ObjectId.isValid(blogId)) {
       return res.status(400).json({error: 'Invalid blog ID'});
     }
 
@@ -55,7 +55,7 @@ const addViewedBlog = async (req, res) => {
     const idBlog = new mongoose.Types.ObjectId(blogId);
 
     const user = await User.findById(idUser);
-    if (!user) return res.status(404).json({ error: 'User not found' });
+    if (!user) return res.status(404).json({error: 'User not found'});
 
     user.readHistory.push(idBlog);
     await user.save();
@@ -80,15 +80,15 @@ const addViewedBlog = async (req, res) => {
     res.status(200).json(data);
   } catch (err) {
     console.error('Error:', err.message);
-    res.status(500).json({ error: 'An unexpected error occurred' });
+    res.status(500).json({error: 'An unexpected error occurred'});
   }
 };
 
 const getViewedBlogs = async (req, res) => {
-  const { userId } = req.params;
+  const {userId} = req.params;
   try {
     const user = await User.findById(userId).populate('readHistory');
-    if (!user) return res.status(404).json({ error: 'User not found' });
+    if (!user) return res.status(404).json({error: 'User not found'});
 
     const data = user.readHistory.map(blog => {
       let image = null;
@@ -109,9 +109,36 @@ const getViewedBlogs = async (req, res) => {
     res.status(200).json(data);
   } catch (err) {
     console.error('Error:', err.message);
-    res.status(500).json({ error: 'An unexpected error occurred' });
+    res.status(500).json({error: 'An unexpected error occurred'});
   }
 };
 
+const getUser = async (req, res) => {
+  console.log("GetUser");
+  const {id} = req.params;
 
-module.exports = { getUserReadHistory, addViewedBlog, getViewedBlogs };
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({error: 'Invalid user id'});
+  }
+
+  const userId = new mongoose.Types.ObjectId(id);
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return res.status(404).json({error: 'User not Found'});
+  }
+
+  const data = {
+    username: user.username,
+    fullName: user.fullname,
+    email: user.email,
+    bio: user.profile.bio,
+    socialLinks: user.socialLinks
+  }
+  console.log(data);
+  res.status(200).json(data)
+
+}
+
+
+module.exports = {getUserReadHistory, addViewedBlog, getViewedBlogs, getUser};

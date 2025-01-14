@@ -19,7 +19,7 @@ export const TabsTrigger = ({ children, value, active, onClick }) => (
         ? 'border-blue-600 text-blue-600'
         : 'border-transparent text-gray-600 hover:text-gray-900'
     }`}
-    onClick={() => onClick(value)}
+    onClick={() => onClick(onChange)}
   >
     {children}
   </button>

@@ -1,6 +1,15 @@
 import React from 'react';
+import {useNavigate} from "react-router-dom";
 
-const AuthorBio = () => {
+const AuthorBio = ({ username, authorId }) => {
+  const navigate = useNavigate();
+
+  const handleAuthorClick = (e) => {
+    e.stopPropagation();
+    navigate(`/author/${authorId}`);
+  }
+
+  //TODO: Add the authors image
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 border-t border-b">
       <div className="flex items-center">
@@ -10,8 +19,8 @@ const AuthorBio = () => {
           className="w-12 h-12 rounded-full"
         />
         <div className="ml-4">
-          <h3 className="font-bold">TOMAS LAURINAVICIUS</h3>
-          <a href="#" className="text-blue-500">View more posts</a>
+          <h3 className="font-bold">{username}</h3>
+          <p className="text-blue-500" onClick={handleAuthorClick}>View more posts</p>
         </div>
       </div>
     </div>

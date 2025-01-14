@@ -5,7 +5,7 @@ const Tags = ({ tags, onTagAdd, onTagRemove }) => {
   const [currentTag, setCurrentTag] = useState('');
 
   const handleTagKeyDown = (e) => {
-    if (e.key === 'Enter' && currentTag.trim()) {
+    if ((e.key === 'Enter' || e.keyCode === 13 || e.inputType === 'insertLineBreak') && currentTag.trim()) {
       e.preventDefault();
       if (!tags.includes(currentTag.trim())) {
         onTagAdd(currentTag.trim());
@@ -34,6 +34,7 @@ const Tags = ({ tags, onTagAdd, onTagRemove }) => {
       </div>
       <input
         type="text"
+        inputMode="text"
         placeholder="Add tags... (Press Enter)"
         value={currentTag}
         onChange={(e) => setCurrentTag(e.target.value)}

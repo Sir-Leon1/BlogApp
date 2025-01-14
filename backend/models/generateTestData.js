@@ -11,12 +11,12 @@ const generateTestData = async () => {
     await connectDB();
 
     // Clear existing data
-    await User.deleteMany({});
-    await Blog.deleteMany({});
+    //await User.deleteMany({});
+    //await Blog.deleteMany({});
 
-    // Create users
+    //Create users
     const users = [];
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 11; i <= 20; i++) {
       users.push({
         username: `user${i}`,
         email: `user${i}@example.com`,
@@ -34,9 +34,10 @@ const generateTestData = async () => {
     const createdUsers = await User.insertMany(users);
 
 
+
     // Create blogs
     const blogs = [];
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 12; i <= 20; i++) {
       const numberOfLikes = Math.floor(Math.random() * createdUsers.length) + 1;
       const likes = [];
       const shuffledUsers = [...createdUsers].sort(() => 0.5 - Math.random());

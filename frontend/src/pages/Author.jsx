@@ -7,15 +7,26 @@ import Newsletter from '../components/author/NewsLetter';
 import Layout from "../components/layout/Layout.jsx";
 import {getSpecificBlogAuthor, getAuthorsBlogList} from '../services/blogApi';
 import {useNavigate, useParams} from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 
 const BlogDetailPage = () => {
   const { authorid } = useParams();
+  const [loading, setLoading] = useState(true)
   console.log(authorid);
 
   const [postAuthor, setPostAuthor] = useState(null);
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
   console.log(postAuthor);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -29,7 +40,9 @@ const BlogDetailPage = () => {
   useEffect(() => {
     console.log('Fetching post author');
     const fetchPostAuthor = async () => {
+      setLoading(true);
       const response = await getSpecificBlogAuthor(authorid);
+      setLoading(false);
       if (response.error) {
         navigate('/404');
         return;
@@ -46,9 +59,14 @@ const BlogDetailPage = () => {
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-8 pt-0">
-        { postAuthor && <AuthorProfile
-          image={postAuthor.profile.profilePicUrl}
+      {loading ? (
+          <div className="flex justify-center items-center h-screen">
+            <ClipLoader size={50} color="#123abc" loading={loading}/>
+          </div>
+        ) : (
+        <div className="container mx-auto px-4 py-8 pt-0">
+          {postAuthor && <AuthorProfile
+            image={postAuthor.profile.profilePicUrl}
           name={postAuthor.name}
           bio={postAuthor.profile.bio}
           socialLinks={postAuthor.social_links}
@@ -66,6 +84,7 @@ const BlogDetailPage = () => {
         </div>
         <Newsletter />
       </div>
+        )}
     </Layout>
   );
 };
