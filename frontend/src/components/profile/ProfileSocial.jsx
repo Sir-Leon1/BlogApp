@@ -1,5 +1,5 @@
 import React from 'react';
-import { Twitter, Github, Linkedin, BookOpen } from 'lucide-react';
+import { Twitter, Github, Linkedin, BookOpen, Facebook } from 'lucide-react';
 import { Button } from "../ui/button";
 import { useProfile } from './ProfileContext';
 
@@ -10,7 +10,8 @@ const ProfileSocial = ({ isEditing }) => {
         twitter: Twitter,
         github: Github,
         linkedin: Linkedin,
-        medium: BookOpen
+        medium: BookOpen,
+        facebook: Facebook,
     };
 
     return (

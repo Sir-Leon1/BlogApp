@@ -8,11 +8,50 @@ import ProfileCategories from '../components/profile/ProfileCategories';
 import ProfileSocial from '../components/profile/ProfileSocial';
 import ProfileNewsletter from '../components/profile/ProfileNewsletter';
 import ProfilePosts from '../components/profile/ProfilePosts';
-import {ProfileProvider} from "../components/profile/ProfileContext.jsx";
+import {ProfileProvider, useProfile} from "../components/profile/ProfileContext.jsx";
 import Layout from "../components/layout/Layout.jsx";
+import ProfileTabs from "../components/profile/ProfileTabs.jsx";
+import PostCard from "../components/profile/ProfilePostsCard.jsx"
 
 const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [posts] = useState({
+    published: [
+      {
+        id: 1,
+        title: "Getting Started with React Hooks",
+        excerpt: "Learn the basics of React Hooks and how to use them effectively...",
+        publishDate: "2024-01-15",
+        readTime: "5 min",
+        likes: 245,
+        comments: 28
+      },
+      // Add more posts...
+    ],
+    drafts: [
+      {
+        id: 101,
+        title: "Advanced TypeScript Patterns",
+        lastEdited: "2024-02-01",
+        completion: 80
+      },
+      // Add more drafts...
+    ]
+  });
+
+  const tabs = [
+
+    {
+      label: 'Published',
+      content: <div id={"some"}>{posts.published.map(post => (
+          <PostCard key={post.id} post={post}/>
+        ))}</div>
+    },
+    {
+      label: 'Settings',
+      content: <div  className={"text-white"}>Account Settings card</div>
+    }
+  ];
 
   return (
     <Layout>
@@ -35,7 +74,7 @@ const UserProfile = () => {
         </Card>
         <div className="max-w-3xl mx-auto mt-8">
           <ProfileNewsletter/>
-          <ProfilePosts/>
+          <ProfileTabs tabs={tabs} defaultTab={0}/>
         </div>
       </ProfileProvider>
     </div>

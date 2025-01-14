@@ -1,10 +1,31 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, {createContext, useContext, useEffect, useState} from 'react';
+import {user} from "../../services/userApi.js";
 
 const ProfileContext = createContext();
 
 export const ProfileProvider = ({ children }) => {
+
+    useEffect( () => {
+        const fetchUserProfile = async () => {
+            const userId = localStorage.getItem("userId");
+            const response = await user(userId);
+            setProfile( prev => {
+                return ({
+                    ...prev,
+                    username: response.data.username,
+                    email: response.data.email,
+                    bio: response.data.bio,
+                    //socialLinks: response.data.socialLinks,
+                    //TODO: Add other fields
+                });
+            })
+        }
+        fetchUserProfile();
+    }, [])
+
+
     const [profile, setProfile] = useState({
-        username: "johndoe",
+        username: "",
         fullName: "John Doe",
         email: "john.doe@example.com",
         bio: "Frontend developer passionate about creating beautiful and functional user interfaces.",
@@ -58,12 +79,25 @@ export const ProfileProvider = ({ children }) => {
 
     const [editedProfile, setEditedProfile] = useState(profile);
 
-    const handleInputChange = (e) => {
+    const handleInputChangeProfile = (e) => {
+        const { name, value } = e.target;
+        setProfile(prev => ({
+            ...prev,
+            [name]: value
+        }));
+        handleInputChangeEdited(e);
+    };
+
+    const handleInputChangeEdited = (e) => {
         const { name, value } = e.target;
         setEditedProfile(prev => ({
             ...prev,
             [name]: value
         }));
+    };
+
+    const updateProfile = (updatedProfile) => {
+        setEditedProfile(updatedProfile);
     };
 
     const saveChanges = () => {
@@ -81,7 +115,9 @@ export const ProfileProvider = ({ children }) => {
             blogStats,
             posts,
             editedProfile,
-            handleInputChange,
+            handleInputChangeProfile,
+            handleInputChangeEdited,
+            updateProfile,
             saveChanges,
             cancelChanges
         }}>

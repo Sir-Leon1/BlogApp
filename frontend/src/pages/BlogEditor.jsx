@@ -12,6 +12,7 @@ import {createBlog} from "../services/blogApi.js";
 import MdEditor from "react-markdown-editor-lite";
 import MarkdownIt from "markdown-it";
 import "react-markdown-editor-lite/lib/index.css";
+import {BLOG_CATEGORIES} from "../constants/categoryData.js";
 
 const mdParser = new MarkdownIt();
 

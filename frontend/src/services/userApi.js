@@ -2,7 +2,7 @@ import apiClient from "./api.js";
 
 export const user = async (id) => {
     try {
-        const response = await apiClient.get(`/u/users/:${id}`,
+        const response = await apiClient.get(`/u/users/${id}`,
             );
         return response;
     } catch (error) {
