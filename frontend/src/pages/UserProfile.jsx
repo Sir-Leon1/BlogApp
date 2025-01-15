@@ -12,6 +12,7 @@ import {ProfileProvider, useProfile} from "../components/profile/ProfileContext.
 import Layout from "../components/layout/Layout.jsx";
 import ProfileTabs from "../components/profile/ProfileTabs.jsx";
 import PostCard from "../components/profile/ProfilePostsCard.jsx"
+import ProfilePhotoUpload from "../components/profile/ProfilePhotoUpload.jsx";
 
 const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -64,7 +65,6 @@ const UserProfile = () => {
             <ProfileStats/>
 
             <ProfileCategories/>
-            <ProfileSocial/>
             <ProfileContent isEditing={isEditing}/>
             <ProfileActions
               isEditing={isEditing}

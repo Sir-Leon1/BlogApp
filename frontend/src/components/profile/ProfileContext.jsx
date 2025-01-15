@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
-import {user} from "../../services/userApi.js";
+import {profileUpdate, user} from "../../services/userApi.js";
 
 const ProfileContext = createContext();
 
@@ -9,13 +9,25 @@ export const ProfileProvider = ({ children }) => {
         const fetchUserProfile = async () => {
             const userId = localStorage.getItem("userId");
             const response = await user(userId);
+            const socialLinks = response.data.socialLinks
+            const socialLinksObject = socialLinks.reduce((acc, link) => {
+                const key = link.platform.toLowerCase();
+                acc[key] = link.url;
+                return acc;
+            }, {});
             setProfile( prev => {
                 return ({
                     ...prev,
+                    image: response.data.image,
                     username: response.data.username,
+                    fullName: response.data.fullName,
+                    location: response.data.location,
+                    website: response.data.website,
+                    //categories: response.data.categories,
                     email: response.data.email,
                     bio: response.data.bio,
-                    //socialLinks: response.data.socialLinks,
+                    socialLinks: socialLinksObject,
+
                     //TODO: Add other fields
                 });
             })
@@ -25,6 +37,7 @@ export const ProfileProvider = ({ children }) => {
 
 
     const [profile, setProfile] = useState({
+        image: "",
         username: "",
         fullName: "John Doe",
         email: "john.doe@example.com",
@@ -96,17 +109,52 @@ export const ProfileProvider = ({ children }) => {
         }));
     };
 
-    const updateProfile = (updatedProfile) => {
-        setEditedProfile(updatedProfile);
+    const updateEditedProfile = (updatedProfile) => {
+        setProfile(updatedProfile);
     };
 
     const saveChanges = () => {
-        setProfile(editedProfile);
+        //setProfile(editedProfile);
+        handleUpdateUserInfo();
     };
 
     const cancelChanges = () => {
         setEditedProfile(profile);
     };
+
+    const handleUpdateUserInfo = async () => {
+        console.log("Saving User info");
+        const userId = localStorage.getItem("userId");
+        console.log(profile.socialLinks);
+        const socialLinks = profile.socialLinks;
+        const socialLinksArray = Object.entries(socialLinks).map(([platform, url]) => ({
+            platform: platform.charAt(0).toUpperCase() + platform.slice(1), // Capitalize the first letter
+            url: url,
+        }));
+        console.log(socialLinksArray);
+        const formData = new FormData();
+        formData.append('username', profile.username);
+        formData.append('fullName', profile.fullName);
+        formData.append('email', profile.email);
+        formData.append('bio', profile.bio);
+        formData.append('location', profile.location);
+        formData.append('website', profile.website);
+        formData.append('socialLinks', JSON.stringify(socialLinksArray));
+        formData.append('categories', profile.categories);
+        formData.append('image', profile.image);
+
+        try {
+            const response = await profileUpdate(formData, userId);
+            if (response.status === 201) {
+                console.log('Info updated');
+            } else {
+                console.error("Failed to update info");
+            }
+        } catch (error) {
+            console.error('Error updating use info: ', error);
+        }
+
+    }
 
 
     return (
@@ -117,7 +165,7 @@ export const ProfileProvider = ({ children }) => {
             editedProfile,
             handleInputChangeProfile,
             handleInputChangeEdited,
-            updateProfile,
+            updateEditedProfile,
             saveChanges,
             cancelChanges
         }}>

@@ -11,10 +11,14 @@ export const user = async (id) => {
     }
 }
 
-export const profileUpdate = async ( data ) => {
+export const profileUpdate = async ( data, userId ) => {
     try {
-        const response = await apiClient.put(`/u/users/profile/:${data.id}`,
-            { data }
+        const response = await apiClient.put(`/u/users/profile/${userId}`,
+            data, {
+            header: {
+                'Content-Type': 'multipart/form-data'
+            },
+          }
             );
         return response;
     } catch (error) {
