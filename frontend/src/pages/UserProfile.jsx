@@ -13,9 +13,11 @@ import Layout from "../components/layout/Layout.jsx";
 import ProfileTabs from "../components/profile/ProfileTabs.jsx";
 import PostCard from "../components/profile/ProfilePostsCard.jsx"
 import ProfilePhotoUpload from "../components/profile/ProfilePhotoUpload.jsx";
+import {useAuth} from "../contexts/AuthContext.jsx";
 
 const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const {logout} = useAuth();
   const [posts] = useState({
     published: [
       {
@@ -39,6 +41,20 @@ const UserProfile = () => {
       // Add more drafts...
     ]
   });
+
+  const handleLogout = async () => {
+    console.log('handlingLogout');
+    const result = await logout();
+    if (result.status === 'success') {
+      navigate('/login');
+      window.location.reload();
+    } else {
+      setAlertType('error');
+      setAlertTitle('Error');
+      setAlertMessage('Logout Failed: ' + result.message);
+      setShowAlert(true);
+    }
+  }
 
   const tabs = [
 
@@ -75,6 +91,11 @@ const UserProfile = () => {
         <div className="max-w-3xl mx-auto mt-8">
           <ProfileNewsletter/>
           <ProfileTabs tabs={tabs} defaultTab={0}/>
+          <button
+        className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-20 ml-4"
+        onClick={() => handleLogout()}
+      >Logout
+      </button>
         </div>
       </ProfileProvider>
     </div>
