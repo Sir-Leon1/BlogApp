@@ -4,11 +4,10 @@ import { TextArea } from "../ui/textArea.jsx";
 import { useProfile } from './ProfileContext';
 
 const SocialSelector = () => {
-  const { profile, updateProfile } = useProfile(); // Assume `profile.socialLinks` contains the social links data
+  const { profile, editedProfile, updateEditedProfile } = useProfile(); // Assume `profile.socialLinks` contains the social links data
   const [selectedPlatform, setSelectedPlatform] = useState("facebook"); // Default to Facebook
   const [urlInput, setUrlInput] = useState(profile.socialLinks?.facebook || ""); // Default URL for platform
 
-  // Available social platforms
   const platforms = [
     { value: "facebook", label: "Facebook" },
     { value: "twitter", label: "Twitter" },
@@ -17,28 +16,20 @@ const SocialSelector = () => {
     { value: "github", label: "GitHub" },
   ];
 
-  // Handle platform selection
   const handlePlatformChange = (e) => {
     const platform = e.target.value;
     setSelectedPlatform(platform); // Update selected platform
     setUrlInput(profile.socialLinks?.[platform] || ""); // Update the URL input based on the current context
   };
 
-  // Handle URL input change
   const handleUrlChange = (e) => {
     setUrlInput(e.target.value);
   };
 
-  // Save updated social link
   const handleSave = () => {
-    // Update profile context with the new social link
-    updateProfile({
-      ...profile,
-      socialLinks: {
-        ...profile.socialLinks,
-        [selectedPlatform]: urlInput, // Update the selected platform's URL
-      },
-    });
+    let obj = profile.socialLinks;
+    Object.assign(obj, { [selectedPlatform]: urlInput})
+    console.log(obj);
   };
 
   return (

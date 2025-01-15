@@ -1,14 +1,14 @@
 const express = require('express');
 const {
   getUserReadHistory, addViewedBlog,
-  getUser
+  getUser, updateProfile
 } = require('../controllers/userController');
 const { authenticate } = require('../middlewares/auth');
 const { validateUser, validateUserUpdate } = require('../middlewares/validation');
 
 const router = express.Router();
-/**
-router.post('/users', validateUser, createUser);*/
+
+router.put('/users/profile/:userId', updateProfile);
 router.get('/users/:id', getUser);
 /**
 router.put('/users/:id', validateUserUpdate, updateUser);

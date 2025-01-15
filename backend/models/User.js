@@ -9,6 +9,23 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  fullName: {
+    type: String,
+    required: false,
+    unique: false
+  },
+  location: {
+    type: String,
+    required: false,
+  },
+  website: {
+    type: String,
+    required: false,
+  },
+  categories: [{
+    type: String,
+    required: false,
+  }],
   email: {
     type: String,
     required: true,
@@ -20,7 +37,18 @@ const UserSchema = new mongoose.Schema({
   },
   profile: {
     bio: String,
-    profilePicUrl: String
+    imageData: {
+      type: Buffer,
+      required: false
+    },
+    imageContentType: {
+      type: String,
+      required: false
+    },
+    imageUrl: {
+      type: String,
+      required: false
+    }
   },
   socialLinks: [
     {
