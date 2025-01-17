@@ -155,7 +155,7 @@ const updateProfile = async (req, res) => {
   console.log("updateProfile")
   //console.log(req);
   upload.single('image')(req, res, async (err) => {
-    let user, imageData, imageContentType, image;
+    let user, imageData, imageContentType, image, socialLinks;
     if (err) {
       return res.status(400).json({error: 'Image upload failed:' + err.message});
     }
@@ -168,7 +168,9 @@ const updateProfile = async (req, res) => {
     const {
       username, imageUrl, fullName, email, bio, location, website, categories
     } = req.body;
-    const socialLinks = JSON.parse(req.body.socialLinks);
+    if (req.body.socialLinks) {
+      socialLinks = JSON.parse(req.body.socialLinks);
+    }
     imageUrl ? image = imageUrl : image = null;
     const {userId} = req.params;
 
@@ -178,8 +180,10 @@ const updateProfile = async (req, res) => {
     const currentUserId = new mongoose.Types.ObjectId(userId);
     user = await User.findById(currentUserId);
 
-    if (!username) {
-      return res.status(400).json({error: 'Username Required'});
+    if (!req.file) {
+      if (!username) {
+        return res.status(400).json({error: 'Username Required'});
+      }
     }
 
     try {
@@ -187,7 +191,7 @@ const updateProfile = async (req, res) => {
         user.profile.imageData = imageData;
         user.profile.imageContentType = imageContentType;
       } else if (image) {
-          user.profile.imageUrl = image;
+        user.profile.imageUrl = image;
       } else {
         user.username = username;
         user.fullName = fullName;
@@ -225,5 +229,4 @@ const updateProfile = async (req, res) => {
 };
 
 
-
-module.exports = {getUserReadHistory, addViewedBlog, getViewedBlogs, getUser, updateProfile };
+module.exports = {getUserReadHistory, addViewedBlog, getViewedBlogs, getUser, updateProfile};

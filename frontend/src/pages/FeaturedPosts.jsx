@@ -66,10 +66,14 @@ const FeaturedPosts = () => {
           <a href="#" className="text-pink-500 ">View all</a>
         </div>
         <div className="space-y-4">
-          {latestArticles.map((article) => {
-            const useArticleCard = Math.random() < 0.5;
+          {latestArticles.map((article, index) => {
+            const useArticleCard = index % 2 === 0;
 
-
+            {/**TODO : change description to
+             description={article.content.split(" ").
+             slice(0, 15).join(" ") + (article.content.split(" ").
+             length > 15 ? "..." : "")}
+             */}
             return useArticleCard ? (
               <ArticleCard
                 key={article.id}

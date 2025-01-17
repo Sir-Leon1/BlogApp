@@ -242,9 +242,13 @@ const getLatestBlogs = async (req, res) => {
    * The blogs should contain the :
    * id, title, authors name, authorid, category
    * content, image if it is there, */
+  console.log("Getting Latest blogs");
   let image;
   try {
-    const blogs = await Blog.find().sort({likes: -1}).limit(10).populate('authorId', 'username');
+    const blogs = await Blog.find().
+    sort({createdAt: -1}).
+    limit(10).
+    populate('authorId', 'username');
 
     const data = blogs.map(blog => {
       let image = null;
