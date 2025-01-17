@@ -115,9 +115,13 @@ const getSpecificBlog = async (req, res) => {
       return res.status(404).json({error: 'Blog not found'});
     }
     const likeCount = blog.likes ? blog.likes.length : 0;
+    if (blog.imageData) {
+        image = `data:${blog.imageContentType};base64,${blog.imageData.toString('base64')}`;
+      } else if (blog.imageUrl) {
+        image = blog.imageUrl;
+    }
     const viewCount = blog.views ? blog.views.length : 0;
-    blog.imageData ? image = `data:${blog.imageContentType};base64,${blog.imageData.toString('base64')}` : image = null;
-
+    
     const comments = blog.comments;
     comments.map(comment => {
       let timestamp = comment.createdAt;
