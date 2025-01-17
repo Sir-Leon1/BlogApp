@@ -1,12 +1,16 @@
 import React, { useState, useRef } from 'react';
 import { X, Upload, Link, Image as ImageIcon } from 'lucide-react';
+import { useProfile } from './ProfileContext';
+import {profileUpdate} from "../../services/userApi.js";
 
 const ProfilePhotoUpload = ( {onClose} ) => {
   const [isOpen, setIsOpen] = useState(true);
   const [activeTab, setActiveTab] = useState('file');
   const [preview, setPreview] = useState(null);
   const [url, setUrl] = useState('');
+  const [imageFile, setImageFile] = useState(null);
   const fileInputRef = useRef(null);
+  const { profile, handlePhotoChange } = useProfile();
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -14,10 +18,33 @@ const ProfilePhotoUpload = ( {onClose} ) => {
       const reader = new FileReader();
       reader.onload = (e) => {
         setPreview(e.target.result);
+        setImageFile(file);
+        handlePhotoChange(file);
       };
       reader.readAsDataURL(file);
     }
   };
+
+  const handleUpdateUserInfo = async () => {
+    console.log("Saving User info: ",  profile);
+    const userId = localStorage.getItem("userId");
+
+    const formData = new FormData();
+
+    formData.append('image', profile.image);
+
+    try {
+      const response = await profileUpdate(formData, userId);
+      if (response.status === 201) {
+        console.log('Info updated');
+      } else {
+        console.error("Failed to update info");
+      }
+    } catch (error) {
+      console.error('Error updating use info: ', error);
+    }
+
+  }
 
   const handleUrlChange = (e) => {
     setUrl(e.target.value);
@@ -26,6 +53,8 @@ const ProfilePhotoUpload = ( {onClose} ) => {
 
   const handleSave = () => {
     // Handle save logic here
+    imageFile ? profile.image = imageFile : profile.image = url;
+    handleUpdateUserInfo();
     onClose();
   };
 
@@ -38,7 +67,7 @@ const ProfilePhotoUpload = ( {onClose} ) => {
         <div className="flex justify-between items-center p-4 border-b">
           <h2 className="text-lg font-semibold">Change Profile Photo</h2>
           <button
-            onClick={() => setIsOpen(false)}
+            onClick={() => onClose()}
             className="text-gray-500 hover:text-gray-700"
           >
             <X size={20} />

@@ -14,6 +14,7 @@ import ProfileTabs from "../components/profile/ProfileTabs.jsx";
 import PostCard from "../components/profile/ProfilePostsCard.jsx"
 import ProfilePhotoUpload from "../components/profile/ProfilePhotoUpload.jsx";
 import {useAuth} from "../contexts/AuthContext.jsx";
+import {useNavigate} from "react-router-dom";
 
 const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -41,6 +42,8 @@ const UserProfile = () => {
       // Add more drafts...
     ]
   });
+
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     console.log('handlingLogout');

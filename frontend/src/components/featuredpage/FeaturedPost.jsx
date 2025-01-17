@@ -1,7 +1,7 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom";
 
-const FeaturedPost = ({title, author, authorid, category, description}) => {
+const FeaturedPost = ({title, author, authorid, category, description, onClick}) => {
   const navigate = useNavigate();
 
   const handleAuthorClick = (e) => {
@@ -16,6 +16,7 @@ const FeaturedPost = ({title, author, authorid, category, description}) => {
            backgroundSize: 'cover',
            backgroundPosition: 'center'
          }}
+         onClick={onClick}
     >
       <div className={"absolute inset-0 bg-purple-900 opacity-75 rounded-lg"}></div>
       <div className="relative z-10">

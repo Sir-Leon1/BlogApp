@@ -17,7 +17,7 @@ export const ProfileProvider = ({ children }) => {
             }, {});
             setProfile( prev => {
                 return ({
-                    ...prev,
+                    ...prev,//TODO reenable the image
                     image: response.data.image,
                     username: response.data.username,
                     fullName: response.data.fullName,
@@ -37,7 +37,7 @@ export const ProfileProvider = ({ children }) => {
 
 
     const [profile, setProfile] = useState({
-        image: "",
+        image: null,
         username: "",
         fullName: "John Doe",
         email: "john.doe@example.com",
@@ -92,6 +92,13 @@ export const ProfileProvider = ({ children }) => {
 
     const [editedProfile, setEditedProfile] = useState(profile);
 
+    const handlePhotoChange = (file) => {
+        setProfile(prev => ({
+            ...prev,
+              image: file
+        }));
+    }
+
     const handleInputChangeProfile = (e) => {
         const { name, value } = e.target;
         setProfile(prev => ({
@@ -123,7 +130,7 @@ export const ProfileProvider = ({ children }) => {
     };
 
     const handleUpdateUserInfo = async () => {
-        console.log("Saving User info");
+        console.log("Saving User info: ",  profile);
         const userId = localStorage.getItem("userId");
         console.log(profile.socialLinks);
         const socialLinks = profile.socialLinks;
@@ -165,6 +172,7 @@ export const ProfileProvider = ({ children }) => {
             editedProfile,
             handleInputChangeProfile,
             handleInputChangeEdited,
+            handlePhotoChange,
             updateEditedProfile,
             saveChanges,
             cancelChanges
