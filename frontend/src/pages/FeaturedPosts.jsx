@@ -54,9 +54,7 @@ const FeaturedPosts = () => {
         author={featured_Post.author}
         authorid={featured_Post.authorid}
         category={featured_Post.category}
-        description={featured_Post.content.split(" ").
-             slice(0, 15).join(" ") + (featured_Post.content.split(" ").
-             length > 15 ? "..." : "")}
+        description={featured_Post.content}
         onClick={() => handleArticleClick(featured_Post.id)}
       />
 
