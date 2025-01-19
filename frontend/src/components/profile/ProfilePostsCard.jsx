@@ -62,17 +62,9 @@ const PostCard = ({post, onEdit, onDelete}) => {
     return brief;
   }
 
-  async function handleArticleClick(id) {
-    await addHistory({
-      userId: localStorage.getItem("userId"),
-      blogId: id
-    })
-    navigate(`/article/${id}`);
-  }
-
   return (
     <>
-      <Card className="mb-4 relative" onClick={handleArticleClick(post.id)>
+      <Card className="mb-4 relative">
         <CardContent className="p-4">
           <div className="flex justify-between items-start mb-2">
             <div className="relative bg-purple-900 text-white rounded-lg p-8"
