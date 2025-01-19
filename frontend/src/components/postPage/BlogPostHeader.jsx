@@ -6,7 +6,7 @@ const BlogPostHeader = ( { title, views, category, likes, image }) => {
       <h1 className="text-3xl font-bold mb-4">
         {title}
       </h1>
-      <img className=" mb-4" alt={"blog Image"} src={image}>
+      <img className=" mb-4 w-full h-80 object-cover " alt={"blog Image"} src={image}>
       </img>
       <div className="flex items-center text-sm text-gray-500">
         <span>VIEWS: {views}</span>
