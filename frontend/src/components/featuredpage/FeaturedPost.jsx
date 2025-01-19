@@ -9,6 +9,19 @@ const FeaturedPost = ({title, author, authorid, category, description, onClick})
     navigate(`/author/${authorid}`);
   }
 
+  const briefDescription = () => {
+    let brief = "Catch up on this and more of your amazing blogs...";
+    if (description) {
+      console.log("Running cut" + description);
+      brief = description.split(" ").
+        slice(0, 15).join(" ") + (description.split(" ").
+        length > 15 ? "..." : "")
+      console.log(brief);
+      return brief;
+    }
+    return brief;
+  }
+
   return (
     <div className="relative bg-purple-900 text-white rounded-lg p-8"
          style={{
@@ -26,7 +39,7 @@ const FeaturedPost = ({title, author, authorid, category, description, onClick})
           <span className="text-sm uppercase">{category}</span>
         </div>
         <h2 className="text-2xl font-bold mb-4">{title}</h2>
-        <p className="text-gray-300">{description}</p>
+        <p className="text-gray-300">{briefDescription()}</p>
       </div>
     </div>
   );
