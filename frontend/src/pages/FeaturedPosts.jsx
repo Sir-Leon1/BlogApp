@@ -81,7 +81,9 @@ const FeaturedPosts = () => {
                 author={article.author}
                 authorid={article.authorId._id}
                 category={article.category}
-                description={article.content}
+                description={article.content.split(" ").
+             slice(0, 15).join(" ") + (article.content.split(" ").
+             length > 15 ? "..." : "")}
                 image={article.image}
                 onClick={() => handleArticleClick(article.id)}
               />
@@ -92,7 +94,9 @@ const FeaturedPosts = () => {
                 author={article.author}
                 authorid={article.authorId._id}
                 category={article.category}
-                description={article.content}
+                description={article.content.split(" ").
+             slice(0, 15).join(" ") + (article.content.split(" ").
+             length > 15 ? "..." : "")}
                 image={article.image}
                 onClick={() => handleArticleClick(article.id)}
               />

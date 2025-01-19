@@ -1,10 +1,30 @@
-import {Card, CardContent} from "../ui/card.jsx";
+import { Card, CardContent } from "../ui/card.jsx";
+import { Pencil, Trash2 } from "lucide-react";
 import React from "react";
 
-const PostCard = ({post}) => (
-  <Card className="mb-4">
+const PostCard = ({ post, onEdit, onDelete }) => (
+  <Card className="mb-4 relative">
     <CardContent className="p-4">
-      <h3 className="text-lg font-semibold mb-2">{post.title}</h3>
+      <div className="flex justify-between items-start mb-2">
+        <h3 className="text-lg font-semibold">{post.title}</h3>
+        <div className="flex gap-2">
+          <button
+            onClick={() => onEdit(post)}
+            className="p-2 text-gray-600 hover:text-blue-600 rounded-full hover:bg-gray-100 transition-colors"
+            aria-label="Edit post"
+          >
+            <Pencil className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => onDelete(post)}
+            className="p-2 text-gray-600 hover:text-red-600 rounded-full hover:bg-gray-100 transition-colors"
+            aria-label="Delete post"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+      
       {post.excerpt && (
         <>
           <p className="text-gray-600 mb-2">{post.excerpt}</p>
@@ -16,6 +36,7 @@ const PostCard = ({post}) => (
           </div>
         </>
       )}
+      
       {post.completion && (
         <div className="flex items-center gap-2">
           <div className="flex-1 h-2 bg-gray-200 rounded">
@@ -33,4 +54,4 @@ const PostCard = ({post}) => (
   </Card>
 );
 
-export default PostCard
+export default PostCard;
