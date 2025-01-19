@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Card} from '../components/ui/card';
 import ProfileHeader from '../components/profile/ProfileHeader';
 import ProfileContent from '../components/profile/ProfileContent';
@@ -15,33 +15,22 @@ import PostCard from "../components/profile/ProfilePostsCard.jsx"
 import ProfilePhotoUpload from "../components/profile/ProfilePhotoUpload.jsx";
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {useNavigate} from "react-router-dom";
+import {getAuthorsBlogList} from "../services/blogApi.js";
 
 const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const {logout} = useAuth();
-  const [posts] = useState({
-    published: [
-      {
-        id: 1,
-        title: "Getting Started with React Hooks",
-        excerpt: "Learn the basics of React Hooks and how to use them effectively...",
-        publishDate: "2024-01-15",
-        readTime: "5 min",
-        likes: 245,
-        comments: 28
-      },
-      // Add more posts...
-    ],
-    drafts: [
-      {
-        id: 101,
-        title: "Advanced TypeScript Patterns",
-        lastEdited: "2024-02-01",
-        completion: 80
-      },
-      // Add more drafts...
-    ]
-  });
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    const fetchPosts = async () => {
+      const response = await getAuthorsBlogList(userId);
+      console.log(response.data);
+      setPosts(response.data);
+    }
+    fetchPosts();
+  }, []);
 
   const navigate = useNavigate();
 
@@ -63,8 +52,8 @@ const UserProfile = () => {
 
     {
       label: 'Published',
-      content: <div id={"some"}>{posts.published.map(post => (
-          <PostCard key={post.id} post={post}/>
+      content: <div id={"some"}>{posts.map((post, index) => (
+          <PostCard key={index} post={post}/>
         ))}</div>
     },
     {

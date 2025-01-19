@@ -1,5 +1,6 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 
 const ArticleCard2 = ({ title, author, authorid, category, description, image, onClick }) => {
 
@@ -16,7 +17,9 @@ const ArticleCard2 = ({ title, author, authorid, category, description, image, o
       <div className="p-4 md:w-2/3">
         <h3 className="text-lg font-bold text-gray-900">{title}</h3>
         <p className="text-sm text-gray-600" onClick={handleAuthorClick}>{author} - {category}</p>
-        <p className="mt-2 text-gray-700">{description}</p>
+        <p className="mt-2 text-gray-700">
+          <ReactMarkdown>{description}</ReactMarkdown>
+        </p>
       </div>
     </div>
   );
