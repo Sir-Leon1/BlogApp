@@ -1,5 +1,7 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom";
+import BlogContentRender from "../BlogEditorPage/BlogContentRender.jsx";
+import ReactMarkdown from "react-markdown";
 
 const FeaturedPost = ({title, author, authorid, category, description, onClick}) => {
   const navigate = useNavigate();
@@ -39,7 +41,9 @@ const FeaturedPost = ({title, author, authorid, category, description, onClick})
           <span className="text-sm uppercase">{category}</span>
         </div>
         <h2 className="text-2xl font-bold mb-4">{title}</h2>
-        <p className="text-gray-300">{briefDescription()}</p>
+        <p className="text-gray-300">
+          <ReactMarkdown>{briefDescription()}</ReactMarkdown>
+        </p>
       </div>
     </div>
   );
