@@ -1,0 +1,6 @@
+@import "github-markdown-css";
+
+.markdown-body {
+    padding: 20px;
+    border-radius: 5px;
+}

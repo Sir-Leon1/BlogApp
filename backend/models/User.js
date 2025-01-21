@@ -9,6 +9,23 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  fullName: {
+    type: String,
+    required: false,
+    unique: false
+  },
+  location: {
+    type: String,
+    required: false,
+  },
+  website: {
+    type: String,
+    required: false,
+  },
+  categories: [{
+    type: String,
+    required: false,
+  }],
   email: {
     type: String,
     required: true,
@@ -18,6 +35,33 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  profile: {
+    bio: String,
+    imageData: {
+      type: Buffer,
+      required: false
+    },
+    imageContentType: {
+      type: String,
+      required: false
+    },
+    imageUrl: {
+      type: String,
+      required: false
+    }
+  },
+  socialLinks: [
+    {
+      platform: { type: String, required: true},
+      url: { type: String, required: true }
+    }
+  ],
+  readHistory: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Blog'
+    }
+  ]
 }, { timestamps: true });
 
 UserSchema.pre('save', async function (next) {

@@ -1,12 +1,12 @@
 import React from 'react';
-import header from '../components/header.jsx';
-import AuthForm from '../components/AuthForm.jsx';
+import header from '../components/layout/header.jsx';
+import AuthForm from '../components/loginReg/AuthForm.jsx';
 
 function LoginRegistrationPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-indigo-100">
+    <div className="min-h-screen bg-gray-800 justify-center items-center align-middle flex">
 
-      <main className="flex items-center justify-center p-4 pt-20">
+      <main className="flex items-center align-middle justify-center p-4 ">
         <AuthForm />
       </main>
     </div>

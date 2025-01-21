@@ -6,11 +6,15 @@ const connectDB = require('./config/db');
 const dotenv = require('dotenv');
 
 const authRoutes = require('./routes/authRoutes');
+const blogRoutes = require('./routes/blogRoutes');
+const tagRoutes = require('./routes/tagRoutes');
+const userRoutes = require('./routes/userRoutes');
+const commentRoutes = require('./routes/commentRoutes');
 
 dotenv.config();
 
 const app = express();
-connectDB();
+connectDB().then(r => console.log('Connected to MongoDB'));
 
 // Middleware
 app.use(express.json());
@@ -23,6 +27,10 @@ app.get('/', (req, res) => {
 
 // Example: app.use('/api/posts', require('./routes/postRoutes'));
 app.use('/api/auth', authRoutes);
+app.use('/api/b', blogRoutes);
+app.use('/api/t', tagRoutes);
+app.use('/api/u', userRoutes);
+app.use('/api/c', commentRoutes);
 
 
 app.use((req, res, next) => {
@@ -37,6 +45,6 @@ app.use((err, req, res, next) => {
 
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });
