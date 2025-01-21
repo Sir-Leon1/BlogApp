@@ -13,11 +13,21 @@ import MdEditor from "react-markdown-editor-lite";
 import MarkdownIt from "markdown-it";
 import "react-markdown-editor-lite/lib/index.css";
 import {BLOG_CATEGORIES} from "../constants/categoryData.js";
+import {useLocation, useNavigate} from "react-router-dom";
+import AlertPopup from "../components/universal/AlertPopup/AlertPopup.jsx";
+
 
 const mdParser = new MarkdownIt();
 
 const BlogEditor = () => {
+  const location = useLocation();
   const [content, setContent] = useState("");
+  const [postId, setPostId] = useState(null);
+  const navigate = useNavigate();
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertType, setAlertType] = useState('success');
+  const [alertTitle, setAlertTitle] = useState('Success');
+  const [alertMessage, setAlertMessage] = useState('');
 
   const [post, setPost] = useState({
     title: '',
@@ -27,6 +37,21 @@ const BlogEditor = () => {
     category: '',
     isPreview: false
   });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    if (location.state?.postData) {
+      setPostId(location.state.postData.id);
+      const postData = location.state.postData;
+      setPost(postData);
+      setContent(postData.content);
+      console.log(postData);
+      console.log(post.coverImage);
+    }
+  }, [location]);
 
   const handleEditorChange = (text) => {
     setPost(prev => ({
@@ -72,16 +97,21 @@ const BlogEditor = () => {
     formData.append('content', post.content);
     formData.append('tags', JSON.stringify(post.tags));
     formData.append('category', post.category);
+    formData.append('authorId', authorId);
     if (post.coverImage) {
       post.coverImage.url ? formData.append('imageUrl', post.coverImage.url) :
       formData.append('coverImage', post.coverImage.data);
     }
 
     try {
-      const response = await createBlog(formData, authorId);
+      console.log(postId);
+      const response = await createBlog(formData, authorId, postId);
       if (response.status === 201) {
-        // Handle successful blog creation (e.g., navigate to the blog page)
-        console.log('Blog created successfully');
+        setAlertType('success');
+        setAlertTitle('Success');
+        setAlertMessage('Blog Successfully Created');
+        setShowAlert(true);
+        navigate(`/article/${response.data.id}`);
       } else {
         // Handle errors
         console.error('Failed to create blog');
@@ -130,7 +160,7 @@ const BlogEditor = () => {
                 />
 
                 <Tags
-                  tags={post.tags}
+                  tags={post.tags || []}
                   onTagAdd={handleTagAdd}
                   onTagRemove={handleTagRemove}
                 />
@@ -162,6 +192,16 @@ const BlogEditor = () => {
           </div>
         </main>
       </div>
+      {showAlert && (
+        <AlertPopup
+          type={alertType}
+          title={alertTitle}
+          message={alertMessage}
+          position="top-center"
+          duration={5000}
+          onClose={() => setShowAlert(false)}
+        />
+      )}
     </Layout>
   );
 };

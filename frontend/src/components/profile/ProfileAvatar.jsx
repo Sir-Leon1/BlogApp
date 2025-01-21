@@ -1,20 +1,35 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Avatar, AvatarImage, AvatarFallback} from "../ui/avatar";
 import {Button} from "../ui/button";
 import {Camera} from "lucide-react";
 import {useProfile} from './ProfileContext';
 import ProfilePhotoUpload from "./ProfilePhotoUpload.jsx";
+import {ClipLoader} from "react-spinners";
 
 const ProfileAvatar = ({isEditing}) => {
   const {profile} = useProfile();
   const [showPhotoEditBox, setShowPhotoEditBox] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (profile.fullName !== 'John Doe') {
+      setLoading(false);
+    }
+  }, [profile.fullName]);
+
   const handleProfileUploadClose = () => {
     setShowPhotoEditBox(false);
   }
 
-  const imageSource = profile.image ? profile.image : "https://placehold.co/600x400";
+  const imageSource = profile.image ? profile.image : "./profilephoto.png";
 
   return (
+    <>
+    {loading ? (
+        <div className="flex justify-center items-center h-20">
+          <ClipLoader size={20} color="#123abc" loading={loading}/>
+        </div>
+      ) : (
     <div className="relative -mt-20 mb-4">
       <Avatar className="w-32 h-32 ">
         <AvatarImage src={imageSource} alt={profile.fullName}/>
@@ -37,6 +52,8 @@ const ProfileAvatar = ({isEditing}) => {
         <ProfilePhotoUpload onClose={handleProfileUploadClose}/>
       )}
     </div>
+      )}
+    </>
   );
 };
 

@@ -156,6 +156,8 @@ const updateProfile = async (req, res) => {
   //console.log(req);
   upload.single('image')(req, res, async (err) => {
     let user, imageData, imageContentType, image, socialLinks;
+    const {userId} = req.params;
+
     if (err) {
       return res.status(400).json({error: 'Image upload failed:' + err.message});
     }
@@ -172,7 +174,6 @@ const updateProfile = async (req, res) => {
       socialLinks = JSON.parse(req.body.socialLinks);
     }
     imageUrl ? image = imageUrl : image = null;
-    const {userId} = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(400).json({error: 'Invalid authorId'});
@@ -203,7 +204,7 @@ const updateProfile = async (req, res) => {
         user.socialLinks = socialLinks;
       }
       await user.save();
-      //console.log(user);
+      console.log(user);
 
       if (user.profile.imageData) {
         image = `data:${user.profile.imageContentType};base64,${user.profile.imageData.toString('base64')}`;

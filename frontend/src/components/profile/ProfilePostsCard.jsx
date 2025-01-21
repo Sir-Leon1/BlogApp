@@ -3,6 +3,8 @@ import {Pencil, Trash2, X} from "lucide-react";
 import React, {useState} from "react";
 import BlogContentRender from "../BlogEditorPage/BlogContentRender.jsx";
 import ReactMarkdown from "react-markdown";
+import {addHistory} from "../../services/userApi.js";
+import {useNavigate} from "react-router-dom";
 
 const DeleteModal = ({isOpen, onClose, onConfirm, postTitle}) => {
   if (!isOpen) return null;
@@ -45,11 +47,16 @@ const DeleteModal = ({isOpen, onClose, onConfirm, postTitle}) => {
 
 const PostCard = ({post, onEdit, onDelete}) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleDelete = () => {
     onDelete(post);
     setShowDeleteModal(false);
   };
+
+  const handleArticleClick = (id) => {
+    navigate(`/article/${id}`);
+  }
 
   const excerpt = () => {
     let brief = "Catch up on this and more of your amazing blogs...";
@@ -74,7 +81,7 @@ const PostCard = ({post, onEdit, onDelete}) => {
                    backgroundPosition: 'center'
                  }}
             />
-            <div className={"flex pl-3 justify-end"}>
+            <div className={"flex pl-3 justify-end"} onClick={() => handleArticleClick(post.id)}>
               <h3 className="text-lg font-semibold">{post.title}</h3>
             </div>
             <div className="flex gap-2">
