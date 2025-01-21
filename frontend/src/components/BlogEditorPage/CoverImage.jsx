@@ -132,12 +132,12 @@ const CoverImage = ({ coverImage, onImageChange, onImageRemove }) => {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 p-4">
-            <button
+            {/**<button
               onClick={() => setUploadType('file')}
               className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-white bg-gray-600 rounded-lg hover:bg-gray-700 transition-colors"
             >
               Change Image
-            </button>
+            </button>*/}
             <button
               onClick={() => setIsModalOpen(true)}
               className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors"

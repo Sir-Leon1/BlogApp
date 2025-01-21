@@ -1,15 +1,24 @@
 import React, {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
+import {user} from "../../../services/userApi.js";
 
 function ProfileButton({isMobileMenuOpen}) {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
+  const [image, setImage] = useState("./profilephoto.png");
 
-  useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      setUsername(storedUsername);
+
+  useEffect( () => {
+    const userId = localStorage.getItem("userId");
+    async function fetchUser()
+    {
+      const response = await user(userId);
+      if (response.status === 200) {
+        setUsername(response.data.username);
+        setImage(response.data.image);
+      }
     }
+    fetchUser();
   }, []);
 
   const handleClick = () => {
@@ -25,7 +34,7 @@ function ProfileButton({isMobileMenuOpen}) {
         >
           <div className={`flex ${isMobileMenuOpen ? "py-2" : "flex-col"} items-center space-x-2 cursor-pointer`}>
             <img
-              src="https://images.unsplash.com/photo-1614502875832-77fe801288ba?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZSUyMHBob3RvfGVufDB8fDB8fHww"
+              src={image}
               alt=""
               className="h-10 w-10 rounded-full object-cover"
             />

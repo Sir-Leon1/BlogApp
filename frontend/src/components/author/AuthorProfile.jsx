@@ -25,7 +25,7 @@ const AuthorProfile = ({image, name, bio, socialLinks}) => {
       <img
         src={image}
         alt={name}
-        className="w-24 h-24 rounded-full mx-auto mb-4"
+        className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
       />
       <h1 className="text-xl text-white font-bold mb-2">{name}</h1>
       <p className="text-gray-50 mb-4">{bio}</p>

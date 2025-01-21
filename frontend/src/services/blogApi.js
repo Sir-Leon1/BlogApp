@@ -44,14 +44,29 @@ export const getAuthorsBlogList = async (user_id) => {
     }
 }
 
-export const createBlog = async ( data, authorId ) => {
+export const createBlog = async ( data, authorId, postId ) => {
+    if (!postId) {
+        try {
+            const response = await apiClient.post(`/b/blogs/${authorId}`,
+              data, {
+                  headers: {
+                      'Content-Type': 'multipart/form-data',
+                  },
+              }
+            )
+            return response;
+        } catch (error) {
+            console.error(error);
+            return error.response;
+        }
+    }
     try {
-        const response = await apiClient.post(`/b/blogs/${authorId}`,
-          data, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-          }
+        const response = await apiClient.put(`/b/blogs/${postId}`,
+            data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }
         )
         return response;
     } catch (error) {

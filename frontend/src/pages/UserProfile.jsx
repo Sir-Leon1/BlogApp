@@ -15,22 +15,33 @@ import PostCard from "../components/profile/ProfilePostsCard.jsx"
 import ProfilePhotoUpload from "../components/profile/ProfilePhotoUpload.jsx";
 import {useAuth} from "../contexts/AuthContext.jsx";
 import {useNavigate} from "react-router-dom";
-import {getAuthorsBlogList} from "../services/blogApi.js";
+import {deleteBlog, getAuthorsBlogList} from "../services/blogApi.js";
+import AlertPopup from "../components/universal/AlertPopup/AlertPopup.jsx";
+import {ClipLoader} from "react-spinners";
+
 
 const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const {logout} = useAuth();
   const [posts, setPosts] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertType, setAlertType] = useState('success');
+  const [alertTitle, setAlertTitle] = useState('Success');
+  const [alertMessage, setAlertMessage] = useState('');
+
+
+  const userId = localStorage.getItem("userId");
+  const fetchPosts = async () => {
+    const response = await getAuthorsBlogList(userId);
+    console.log(response.data);
+    setPosts(response.data);
+  }
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
-    const fetchPosts = async () => {
-      const response = await getAuthorsBlogList(userId);
-      console.log(response.data);
-      setPosts(response.data);
-    }
     fetchPosts();
   }, []);
+
+
 
   const navigate = useNavigate();
 
@@ -38,8 +49,13 @@ const UserProfile = () => {
     console.log('handlingLogout');
     const result = await logout();
     if (result.status === 'success') {
+      setAlertType('success');
+      setAlertTitle('Success');
+      setAlertMessage('Logout Successful');
+      setShowAlert(true);
       navigate('/login');
       window.location.reload();
+
     } else {
       setAlertType('error');
       setAlertTitle('Error');
@@ -48,12 +64,44 @@ const UserProfile = () => {
     }
   }
 
+  const handleDelete = async ( post ) => {
+    const response = await deleteBlog(post);
+    if (response.status === 200) {
+      setAlertType('success');
+      setAlertTitle('Post Deleted');
+      setAlertMessage('Post was successfully deleted');
+      setShowAlert(true);
+    }
+    //setPosts(response.data);
+    fetchPosts();
+  }
+
+  const handleEdit = async ( post ) => {
+    console.log("Printing post b4 handling editing", post)
+    navigate(`/editor`, {
+      state: {
+        postData: {
+          id: post.id,
+          title: post.title,
+          content: post.content,
+          tags: post.tags,
+          coverImage: {
+            type: 'url',
+            data: post.image
+          },
+          category: post.category,
+          isPreview: false
+        }
+      }
+    });
+  }
+
   const tabs = [
 
     {
       label: 'Published',
       content: <div id={"some"}>{posts.map((post, index) => (
-          <PostCard key={index} post={post}/>
+          <PostCard key={index} post={post} onDelete={handleDelete} onEdit={handleEdit}/>
         ))}</div>
     },
     {
@@ -90,7 +138,18 @@ const UserProfile = () => {
       </button>
         </div>
       </ProfileProvider>
+      {showAlert && (
+        <AlertPopup
+          type={alertType}
+          title={alertTitle}
+          message={alertMessage}
+          position="top-center"
+          duration={5000}
+          onClose={() => setShowAlert(false)}
+        />
+      )}
     </div>
+
     </Layout>
   )
     ;

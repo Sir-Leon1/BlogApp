@@ -12,7 +12,7 @@ const router = express.Router();
 router.post('/blogs/:authorId', validateBlog, createBlog);
 router.get('/blogs', getBlogs);
 router.get('/blogs/latest', getLatestBlogs);
-router.put('/blogs/:id', validateBlog, validateBlogUpdate, updateBlog);
+router.put('/blogs/:postId', validateBlog, validateBlogUpdate, updateBlog);
 router.delete('/blogs/:id', deleteBlog);
 router.get('/blogs/featured', getFeaturedBlog);
 

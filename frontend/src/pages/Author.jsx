@@ -13,10 +13,10 @@ const BlogDetailPage = () => {
   const { authorid } = useParams();
   const [loading, setLoading] = useState(true)
   console.log(authorid);
-
   const [postAuthor, setPostAuthor] = useState(null);
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
+  let image;
   console.log(postAuthor);
 
   useEffect(() => {
@@ -55,6 +55,11 @@ const BlogDetailPage = () => {
   console.log(postAuthor);
   console.log(posts);
   //TODO : The profile pic retreival will change once the profile manager is implemented
+  if (postAuthor && postAuthor.profile.imageData) {
+    image = `data:${postAuthor.profile.imageContentType};base64,${postAuthor.profile.imageData.toString('base64')}`;
+    console.log(image);
+  }
+  //const imageSource = URL.createObjectURL(image);
 
 
   return (
@@ -66,7 +71,7 @@ const BlogDetailPage = () => {
         ) : (
         <div className="container mx-auto px-4 py-8 pt-0">
           {postAuthor && <AuthorProfile
-            image={postAuthor.profile.profilePicUrl}
+            image={postAuthor.image}
           name={postAuthor.name}
           bio={postAuthor.profile.bio}
           socialLinks={postAuthor.social_links}
@@ -77,7 +82,7 @@ const BlogDetailPage = () => {
             {posts.map((post, index) => (
               <BlogPost key={index} {...post} articleId={post.id}/>
             ))}
-            <Pagination />
+            {/**<Pagination />*/}
           </div>
           { postAuthor && <Sidebar posts={posts}
                    socialLinks={postAuthor.social_links}/> }

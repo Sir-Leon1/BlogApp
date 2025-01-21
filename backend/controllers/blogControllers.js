@@ -116,12 +116,12 @@ const getSpecificBlog = async (req, res) => {
     }
     const likeCount = blog.likes ? blog.likes.length : 0;
     if (blog.imageData) {
-        image = `data:${blog.imageContentType};base64,${blog.imageData.toString('base64')}`;
-      } else if (blog.imageUrl) {
-        image = blog.imageUrl;
+      image = `data:${blog.imageContentType};base64,${blog.imageData.toString('base64')}`;
+    } else if (blog.imageUrl) {
+      image = blog.imageUrl;
     }
     const viewCount = blog.views ? blog.views.length : 0;
-    
+
     const comments = blog.comments;
     comments.map(comment => {
       let timestamp = comment.createdAt;
@@ -148,42 +148,66 @@ const getSpecificBlog = async (req, res) => {
 };
 
 const updateBlog = async (req, res) => {
-  let {id} = req.params;
-  let image;
-  const {title, content, authorId} = req.body.data;
-  try {
-    const blogId = new mongoose.Types.ObjectId(id);
-    const blog = await Blog.findById(blogId);
+  console.log("updateBlog");
+  upload.single('coverImage')(req, res, async (err) => {
+    let {postId} = req.params;
+    let image, imageData, imageContentType;
+    const {title, content, imageUrl, category, authorId} = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(authorId)) {
-      return res.status(400).json({error: 'Invalid authorId'});
+    imageUrl ? image = imageUrl : image = null;
+    if (err) {
+      return res.status(400).json({error: 'Image upload failed:' + err.message});
     }
-    if (!blog) {
-      return res.status(404).json({error: 'Blog not found'});
+    if (req.file) {
+      imageData = req.file.buffer;
+      imageContentType = req.file.mimetype;
     }
 
-    if (blog.authorId.toString() !== authorId) {
-      return res.status(403).json({error: 'Unauthorized'});
-    }
-    blog.title = title;
-    blog.content = content;
-    await blog.save();
-    blog.imageData ? image = `data:${blog.imageContentType};base64,${blog.imageData.toString('base64')}` : image = null;
+    try {
+      const blogId = new mongoose.Types.ObjectId(postId);
+      const blog = await Blog.findById(blogId);
 
-    const data = {
-      id: blog._id,
-      title: blog.title,
-      content: blog.content,
-      image: image,
-      authorId: blog.authorId,
-      author: blog.authorId.username,
-      category: blog.category,
+      if (!mongoose.Types.ObjectId.isValid(authorId)) {
+        return res.status(400).json({error: 'Invalid authorId'});
+      }
+      if (!blog) {
+        return res.status(404).json({error: 'Blog not found'});
+      }
+      if (blog.authorId.toString() !== authorId) {
+        return res.status(403).json({error: 'Unauthorized'});
+      }
+
+      if (req.file) {
+        blog.imageData = imageData;
+        blog.imageContentType = imageContentType;
+      } else if (image) {
+        blog.imageUrl = image;
+      } else {
+        blog.title = title;
+        blog.content = content;
+        blog.category = category;
+      }
+      await blog.save();
+
+      if (blog.imageData) {
+        image = `data:${blog.imageContentType};base64,${blog.imageData.toString('base64')}`;
+      }
+
+      const data = {
+        id: blog._id,
+        title: blog.title,
+        content: blog.content,
+        image: image,
+        authorId: blog.authorId,
+        author: blog.authorId.username,
+        category: blog.category,
+      }
+      res.status(200).json(data);
+    } catch (err) {
+      console.error('Error:', err.message);
+      res.status(500).json({error: 'An unexpected error occurred'});
     }
-    res.status(200).json(data);
-  } catch (err) {
-    console.error('Error:', err.message);
-    res.status(500).json({error: 'An unexpected error occurred'});
-  }
+  });
 };
 
 const deleteBlog = async (req, res) => {
@@ -227,7 +251,7 @@ const getBlogAuthor = async (req, res) => {
       return res.status(404).json({error: 'Author not Found'});
     }
     const data = {
-      //image: blog.author.image,
+      image: user.profile.imageData ? `data:${user.profile.imageContentType};base64,${user.profile.imageData.toString('base64')}` : null,
       name: user.username,
       profile: user.profile,
       social_links: user.socialLinks,
@@ -249,10 +273,7 @@ const getLatestBlogs = async (req, res) => {
   console.log("Getting Latest blogs");
   let image;
   try {
-    const blogs = await Blog.find().
-    sort({createdAt: -1}).
-    limit(10).
-    populate('authorId', 'username');
+    const blogs = await Blog.find().sort({createdAt: -1}).limit(10).populate('authorId', 'username');
 
     const data = blogs.map(blog => {
       let image = null;
@@ -317,6 +338,7 @@ const getBlogsByUser = async (req, res) => {
         id: blog._id,
         title: blog.title,
         content: blog.content,
+        tags: blog.tags,
         image: image,
         authorId: blog.authorId,
         author: blog.authorId.username,
