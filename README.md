@@ -11,7 +11,6 @@ Welcome to **ThreadedStories** This project is a web application built using the
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [License](#license)
 - [Contact](#contact)
 
 ## Features
@@ -67,9 +66,6 @@ Contributions are what make the open-source community such an amazing place to l
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-## License
-This project is not licensed. Add a license if applicable.
 
 ## Contact
 **GitHub Profile:** [Sir-Leon1](https://github.com/Sir-Leon1)
