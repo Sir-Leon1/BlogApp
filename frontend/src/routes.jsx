@@ -10,6 +10,7 @@ import BlogPost from "./pages/BlogPost.jsx";
 import AllReadingLists from "./pages/AllReadingLists.jsx";
 import UserProfile from "./pages/UserProfile.jsx";
 import BlogEditor from "./pages/BlogEditor.jsx";
+import LandingPage from "@/pages/LandingPage.jsx";
 
 
 function AppRoutes() {
@@ -18,6 +19,7 @@ function AppRoutes() {
     <Router>
       <AuthProvider>
         <Routes>
+          <Route path="/welcome" element={<LandingPage/>}/>
           <Route path="/" element={<FeaturedPosts/>}/>
           <Route path="/featured" element={<FeaturedPosts/>}/>
           <Route path="/login" element={<LoginRegistrationPage/>}/>
