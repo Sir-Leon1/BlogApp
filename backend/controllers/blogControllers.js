@@ -181,6 +181,8 @@ const updateBlog = async (req, res) => {
         blog.imageData = imageData;
         blog.imageContentType = imageContentType;
       } else if (image) {
+        blog.imageData = null;
+        blog.imageContentType = null;
         blog.imageUrl = image;
       } else {
         blog.title = title;
