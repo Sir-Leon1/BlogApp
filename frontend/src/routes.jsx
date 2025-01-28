@@ -1,6 +1,6 @@
 //Handles the routing of the application pages
 import React from "react";
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginRegistrationPage from "./pages/LoginRegistrationPage.jsx";
 import FeaturedPosts from "./pages/FeaturedPosts.jsx";
 import {AuthProvider} from "./contexts/AuthContext.jsx";
@@ -10,12 +10,14 @@ import BlogPost from "./pages/BlogPost.jsx";
 import AllReadingLists from "./pages/AllReadingLists.jsx";
 import UserProfile from "./pages/UserProfile.jsx";
 import BlogEditor from "./pages/BlogEditor.jsx";
+import NotFound from './pages/404';
 
 
 function AppRoutes() {
   return (
 
     <Router>
+
       <AuthProvider>
         <Routes>
           <Route path="/" element={<FeaturedPosts/>}/>
@@ -30,7 +32,7 @@ function AppRoutes() {
           <Route path="/editor" element={<BlogEditor/>}/>
           <Route path="/article/:articleid" element={<BlogPost/>}/>
           <Route path="/profile" element={<UserProfile/>}/>
-
+<Route element={<NotFound />} />
         </Routes>
       </AuthProvider>
 
