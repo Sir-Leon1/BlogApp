@@ -67,9 +67,8 @@ const SearchBar = () => {
                 setSelectedIndex(-1);
               }}
               placeholder="Search articles..."
-              className="w-full sm:w-200 h-8 sm:h-8 px-3 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              className="block w-full pl-10 pr-12 py-3 bg-gray-900 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+              className="w-full sm:w-200 h-8 sm:h-8 px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              />
             {query && (
               <button
                 onClick={() => setQuery('')}
