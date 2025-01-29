@@ -55,9 +55,6 @@ const SearchBar = () => {
       <div className="relative z-50">
         <div className="flex items-center gap-2">
           <div className="relative flex-1">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
-            </div>
             <input
               type="text"
               value={query}
@@ -89,9 +86,9 @@ const SearchBar = () => {
           </button>
         </div>
 
-        {/* Filters panel - Absolute positioning */}
+        {/* Filters panel - Absolute positioning 
         {showFilters && (
-          <div className="absolute w-full mt-2 p-4 bg-gray-900 border border-gray-700 rounded-lg shadow-lg z-50">
+          <div className="absolute h-8 w-full mt-2 p-4 bg-gray-900 border border-gray-700 rounded-lg shadow-lg z-50">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
@@ -128,7 +125,7 @@ const SearchBar = () => {
               </div>
             </div>
           </div>
-        )}
+        )}*/}
 
         {/* Search statistics */}
         {query.length >= 2 && !isLoading && (
