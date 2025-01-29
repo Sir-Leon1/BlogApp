@@ -27,7 +27,7 @@ const Navbar = ({isloggedin, userDetails, onLogout}) => {
                         <div className="flex items-center">
                             <div className="ml-8 hidden w-full sm:flex whitespace-nowrap space-x-4 text-white">
                                 <a href="/" className=" hover:text-purple-500 text-white">Home</a>
-                                <a href="#" className=" hover:text-purple-500 text-white">Popular</a>
+                                <a href="/welcome" className=" hover:text-purple-500 text-white">About</a>
                                 <a href="/editor" className=" hover:text-purple-500 text-white">New</a>
                                 <a href="/readinglists" className=" hover:text-purple-500 text-white">Reading
                                     list</a>
@@ -84,7 +84,7 @@ const Navbar = ({isloggedin, userDetails, onLogout}) => {
                   </div>
                   <div className="space-y-2">
                       <a href="/" className="block px-3 py-2  hover:text-purple-500 text-white">Home</a>
-                      <a href="#" className="block px-3 py-2  hover:text-purple-500 text-white">Popular</a>
+                      <a href="/welcome" className="block px-3 py-2  hover:text-purple-500 text-white">About</a>
                       <a href="/editor" className="block px-3 py-2  hover:text-purple-500 text-white">New</a>
                       <a href="/readinglists" className="block px-3 py-2  hover:text-purple-500 text-white">Reading
                           list</a>
@@ -93,7 +93,7 @@ const Navbar = ({isloggedin, userDetails, onLogout}) => {
                         <ProfileButton isMobileMenuOpen={isMobileMenuOpen}/>
                       ) : (
                         <button
-                          onClick={() => window.location.href = '/login'}
+                          onClick={() => window.location.href = '/welcome'}
                           className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             Login / Register
