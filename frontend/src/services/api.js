@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-    baseURL: 'https://threadedstoriesapi.vilet.tech/api',
+    baseURL: 'https://blogapp-l9fq.onrender.com/api',
     headers: {
         'Content-Type': 'Application/json',
     },
