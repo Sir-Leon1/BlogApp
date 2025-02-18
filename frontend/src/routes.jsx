@@ -38,7 +38,7 @@ function AppRoutes() {
           <Route path="/editor" element={<BlogEditor/>}/>
           <Route path="/article/:articleid" element={<BlogPost/>}/>
           <Route path="/profile" element={<UserProfile/>}/>
-<Route element={<NotFound />} />
+<Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>
 

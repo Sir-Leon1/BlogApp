@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-    baseURL: 'https://blogapp-l9fq.onrender.com/api',
+    baseURL: 'http://192.168.8.172:5000/api',
     headers: {
         'Content-Type': 'Application/json',
     },

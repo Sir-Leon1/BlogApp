@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Layout from '../components/layout/Layout';
 import FeaturedPost from '../components/featuredpage/FeaturedPost.jsx';
 import ReadingList from '../components/featuredpage/ReadingList.jsx';
@@ -7,36 +7,11 @@ import ArticleCard2 from "../components/featuredpage/ArticleCard2.jsx";
 import {getpopularTags, featuredPost, getlatestArticles} from '../services/blogApi';
 import {useNavigate} from "react-router-dom";
 import {addHistory} from "../services/userApi.js";
+import {HomePageContext, HomePageProvider, useHome} from "../contexts/HomePageContext.jsx";
 
 const FeaturedPosts = () => {
-  const [featured_Post, setFeaturedPost] = useState({});
-  const [popularTags, setPopularTags] = useState([]);
-  const [latestArticles, setLatestArticles] = useState([]);
+  const { featured_Post, popularTags, latestArticles } = useHome();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchFeaturedPost = async () => {
-      const response = await featuredPost();
-      setFeaturedPost(response.data);
-    }
-    fetchFeaturedPost();
-  }, [])
-
-  useEffect(() => {
-    const fetchPopularTags = async () => {
-      const response = await getpopularTags();
-      setPopularTags(response.data);
-    }
-    fetchPopularTags();
-  }, []);
-
-  useEffect(() => {
-    const fetchLatestArticles = async () => {
-      const response = await getlatestArticles();
-      setLatestArticles(response.data);
-    }
-    fetchLatestArticles();
-  }, []);
 
 
   async function handleArticleClick(id) {
@@ -49,6 +24,7 @@ const FeaturedPosts = () => {
 
   return (
     <Layout>
+      <HomePageProvider>
       <FeaturedPost
         title={featured_Post.title}
         author={featured_Post.author}
@@ -105,6 +81,7 @@ const FeaturedPosts = () => {
 
         </div>
       </section>
+      </HomePageProvider>
     </Layout>
   );
 };

@@ -1,36 +1,35 @@
-/**import React from "react";
 
-const SearchBar = () => {
-  return (
-    <div className=" sm:flex items-center">
-      <input
-        type="text"
-        placeholder="Search..."
-        className="w-full sm:w-200 h-8 sm:h-8 px-3 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      />
-    </div>
-  );
-}
-
-export default SearchBar;
- */
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, X, Loader2, Filter, Clock, Eye, Calendar, BookOpen, Tag, ChevronDown, ChevronUp } from 'lucide-react';
+import {HomePageProvider, useHome} from "../../../contexts/HomePageContext.jsx";
 
-// Previous data generation code remains the same...
-const generateTestData = () => {
-  // ... (previous test data generation code)
+const generateSearchData = (latestArticles) => {
+  //const { latestArticles } = useHome();
+  const topics = ['Beginner', 'Advanced', 'Tutorial', 'Guide', 'Best Practices', 'Tips & Tricks'];
+
+  return latestArticles.map(article => ({
+    ...article,
+    tags: [
+      article.category,
+      topics[Math.floor(Math.random() * topics.length)],
+      `${article.category} ${Math.floor(Math.random() * 100 + 1)}`
+      ],
+    excerpt: `Learn about ${article.title.toLowerCase()} in this comprehensive guide...`,
+    views: Math.floor(Math.random() * 1000),
+    readTime: `${Math.floor(Math.random() * 10) + 1} min read`,
+    date: new Date(Date.now() - Math.floor(Math.random() * 30) * 24 * 60 * 60 * 1000).toISOString(),
+
+  }));
 };
 
 const SearchBar = () => {
-  // Previous state declarations remain the same...
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [testData] = useState(generateTestData());
+  const [testData, setTestData] = useState(generateSearchData([]));
   const [filters, setFilters] = useState({
     categories: [],
     dateRange: 'all',
@@ -45,9 +44,149 @@ const SearchBar = () => {
     popularCategories: {},
     averageViews: 0
   });
+  const [sortBy, setSortBy] = useState('relevance');
   const searchRef = useRef(null);
+  const { latestArticles } = useHome();
+
+  useEffect(() => {
+    setTestData(generateSearchData(latestArticles));
+    console.log(latestArticles);
+  }, [latestArticles]);
 
   // Previous helper functions remain the same...
+  // Calculate search statistics
+  const calculateSearchStats = (results) => {
+    const startTime = performance.now();
+
+    const stats = {
+      totalResults: results.length,
+      searchTime: ((performance.now() - startTime) / 1000).toFixed(3),
+      popularCategories: results.reduce((acc, article) => {
+        acc[article.category] = (acc[article.category] || 0) + 1;
+        return acc;
+      }, {}),
+      averageViews: results.reduce((acc, article) => acc + article.views, 0) / (results.length || 1)
+    };
+
+    setSearchStats(stats);
+  };
+
+  // Apply filters to search results
+  const applyFilters = (results) => {
+    return results.filter(article => {
+      const categoryMatch = filters.categories.length === 0 ||
+        filters.categories.includes(article.category);
+
+      const dateMatch = filters.dateRange === 'all' ||
+        (filters.dateRange === 'week' && new Date(article.date) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)) ||
+        (filters.dateRange === 'month' && new Date(article.date) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
+
+      const difficultyMatch = filters.difficulty.length === 0 ||
+        filters.difficulty.includes(article.difficulty);
+
+      const viewsMatch = article.views >= filters.minViews;
+
+      const tagsMatch = filters.tags.length === 0 ||
+        filters.tags.some(tag => article.tags.includes(tag));
+
+      return categoryMatch && dateMatch && difficultyMatch && viewsMatch && tagsMatch;
+    });
+  };
+
+  // Sort results based on selected criterion
+  const sortResults = (results) => {
+    switch (sortBy) {
+      case 'date':
+        return [...results].sort((a, b) => new Date(b.date) - new Date(a.date));
+      case 'views':
+        return [...results].sort((a, b) => b.views - a.views);
+      case 'engagement':
+        return [...results].sort((a, b) => (b.likes + b.comments) - (a.likes + a.comments));
+      default: // 'relevance'
+        return results;
+    }
+  };
+
+  // Search effect with filters and sorting
+  useEffect(() => {
+    const searchArticles = async () => {
+      if (query.length < 2) {
+        setSuggestions([]);
+        return;
+      }
+
+      setIsLoading(true);
+      await new Promise(resolve => setTimeout(resolve, 300));
+
+      const searchTerm = query.toLowerCase();
+      let filtered = testData.filter(article =>
+        article.title.toLowerCase().includes(searchTerm) ||
+        article.category.toLowerCase().includes(searchTerm) ||
+        article.tags.some(tag => tag.toLowerCase().includes(searchTerm)) ||
+        article.excerpt.toLowerCase().includes(searchTerm)
+      );
+
+      // Apply filters
+      filtered = applyFilters(filtered);
+
+      // Apply sorting
+      filtered = sortResults(filtered);
+
+      // Calculate statistics
+      calculateSearchStats(filtered);
+
+      setSuggestions(filtered);
+      setIsLoading(false);
+    };
+
+    searchArticles();
+  }, [query, filters, sortBy, testData]);
+
+  // Result card component
+  const ResultCard = ({ article }) => (
+    <div className="p-4 hover:bg-gray-50 transition-colors border-b last:border-b-0">
+      <div className="flex justify-between items-start">
+        <div className="flex-1">
+          <h3 className="font-medium text-lg text-gray-900">{article.title}</h3>
+          <p className="text-sm text-gray-600 mt-1">{article.excerpt}</p>
+        </div>
+        <div className="text-right text-sm text-gray-500">
+          <div className="flex items-center gap-1">
+            <Eye className="w-4 h-4" />
+            {article.views.toLocaleString()}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-2">
+        {article.tags.map((tag, index) => (
+          <span key={index} className="text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded-full">
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      <div className="mt-3 flex items-center gap-4 text-sm text-gray-600">
+        <div className="flex items-center gap-1">
+          <Calendar className="w-4 h-4" />
+          {new Date(article.date).toLocaleDateString()}
+        </div>
+        <div className="flex items-center gap-1">
+          <Clock className="w-4 h-4" />
+          {article.readTime}
+        </div>
+        <div className="flex items-center gap-1">
+          <BookOpen className="w-4 h-4" />
+          {article.difficulty}
+        </div>
+      </div>
+
+      <div className="mt-2 text-sm text-gray-500">
+        by {article.author} • {article.author.role}
+      </div>
+    </div>
+  );
+
 
   return (
     <div className="w-full max-w-3xl mx-auto relative" ref={searchRef}>
@@ -76,14 +215,14 @@ const SearchBar = () => {
             )}
           </div>
 
-          <button
+          {/*<button
             onClick={() => setShowFilters(!showFilters)}
             className="px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg flex items-center gap-2 hover:bg-gray-800 text-gray-300"
           >
             <Filter className="w-5 h-5" />
             Filters
             {showFilters ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-          </button>
+          </button>*/}
         </div>
 
         {/* Filters panel - Absolute positioning 
@@ -216,7 +355,8 @@ const SearchBar = () => {
         />
       )}
     </div>
+
   );
 };
-
+export { generateSearchData };
 export default SearchBar;
