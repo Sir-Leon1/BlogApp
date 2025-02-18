@@ -14,11 +14,10 @@ const FeaturedPost = ({title, author, authorid, category, description, onClick})
   const briefDescription = () => {
     let brief = "Catch up on this and more of your amazing blogs...";
     if (description) {
-      console.log("Running cut" + description);
       brief = description.split(" ").
         slice(0, 15).join(" ") + (description.split(" ").
         length > 15 ? "..." : "")
-      console.log(brief);
+
       return brief;
     }
     return brief;

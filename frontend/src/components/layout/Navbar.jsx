@@ -23,9 +23,9 @@ const Navbar = ({isloggedin, userDetails, onLogout}) => {
                     <h1 className="text-small font-bold text-white">Threaded</h1>
                     <h1 className="text-small font-bold text-white">Stories</h1>
                     </div>
-                    <div className="flex md:flex-col flex-row items-center ">
-                        <div className="flex items-center">
-                            <div className="ml-8 hidden w-full sm:flex whitespace-nowrap space-x-4 text-white">
+                    <div className="flex md:flex-col flex-row justify-start ">
+                        <div className="ml-8 flex items-center">
+                            <div className=" hidden w-full sm:flex whitespace-nowrap space-x-4 text-white">
                                 <a href="/" className=" hover:text-purple-500 text-white">Home</a>
                                 <a href="/welcome" className=" hover:text-purple-500 text-white">About</a>
                                 <a href="/editor" className=" hover:text-purple-500 text-white">New</a>
@@ -34,14 +34,9 @@ const Navbar = ({isloggedin, userDetails, onLogout}) => {
                                 <a href="/topics" className="text-gray-600 hover:text-purple-500 text-white">Topics</a>
                             </div>
                         </div>
-                        <div className="ml-8 sm:flex hidden flexspace-x-4 mt-4">
+                        <div className="ml-8 sm:flex hidden  mt-4">
                             <SearchBar></SearchBar>
-                            <button className="p-2">
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                </svg>
-                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -75,12 +70,6 @@ const Navbar = ({isloggedin, userDetails, onLogout}) => {
               <div className="sm:hidden py-4 p-4">
                   <div className="px-3 py-2 flex justify-between mt-4">
                       <SearchBar></SearchBar>
-                      <button className="p-2">
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                          </svg>
-                      </button>
                   </div>
                   <div className="space-y-2">
                       <a href="/" className="block px-3 py-2  hover:text-purple-500 text-white">Home</a>
