@@ -43,11 +43,14 @@ const NotFound = () => {
 
         {/* Navigation buttons */}
         <div className="flex flex-wrap justify-center gap-4">
-          <button className="flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+          <button className="flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+	  onClick={() => window.location.href = '/'}
+	  >
             <Home className="w-5 h-5" />
             Go Home
           </button>
 
+	  {/*
           <button className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
             <Search className="w-5 h-5" />
             Search Site
@@ -57,6 +60,7 @@ const NotFound = () => {
             <ArrowLeft className="w-5 h-5" />
             Go Back
           </button>
+	  */}
         </div>
       </div>
 
