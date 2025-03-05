@@ -142,10 +142,10 @@ const SearchBar = () => {
   };
 
   const ResultCard = ({ article, onClick }) => (
-    <div className="p-4 hover:bg-gray-50 transition-colors border-b last:border-b-0" onClick={() => onClick(article)}>
+    <div className="p-4 hover:bg-gray-50 transition-colors border-b last:border-b-0" >
       <div className="flex justify-between items-start">
         <div className="flex-1">
-          <h3 className="font-medium text-lg text-gray-900">{article.title}</h3>
+          <h3 className="font-medium text-lg text-gray-900" onClick={() => onClick(article)} >{article.title}</h3>
           <p className="text-sm text-gray-600 mt-1">{article.excerpt}</p>
         </div>
         <div className="text-right text-sm text-gray-500">
