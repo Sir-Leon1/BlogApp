@@ -234,7 +234,7 @@ const SearchBar = () => {
                     key={article.id}
                     className="p-4 hover:bg-gray-800 transition-colors border-b border-gray-700 last:border-b-0"
                   >
-                    <ResultCard article={article} onClick={handleResultClick(article.id)} />
+                    <ResultCard article={article} onClick={() => handleResultClick(article.id)} />
                   </div>
                 ))}
               </div>
